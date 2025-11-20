@@ -64,9 +64,26 @@
             transition: all .3s ease;
             position: relative;
             letter-spacing: -0.2px;
+            overflow: hidden;
+        }
+        nav a::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: var(--secondary);
+            transition: width 0.4s ease, height 0.4s ease;
+            transform: translate(-50%, -50%);
+            z-index: -1;
+        }
+        nav a:hover::before {
+            width: 150%;
+            height: 300%;
         }
         nav a:hover {
-            background: var(--secondary);
             color: var(--primary);
             transform: translateY(-2px);
         }
@@ -217,9 +234,24 @@
             box-shadow: 0 6px 25px rgba(0,0,0,0.08);
             transition: all .4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             border: 2px solid transparent;
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(201, 166, 255, 0.1), transparent);
+            transition: left 0.5s ease;
+        }
+        .card:hover::before {
+            left: 100%;
         }
         .card:hover {
-            transform: translateY(-10px);
+            transform: translateY(-10px) scale(1.02);
             box-shadow: 0 15px 40px rgba(201, 166, 255, 0.25);
             border-color: var(--primary);
         }
@@ -271,6 +303,22 @@
             font-size: 3rem;
             color: white;
             font-weight: 600;
+            overflow: hidden;
+            position: relative;
+        }
+        .project-img::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+        .project-card:hover .project-img::before {
+            transform: translateX(100%);
         }
         .tech-tags {
             display: flex;
@@ -338,9 +386,31 @@
             text-align: center;
             box-shadow: 0 6px 20px rgba(0,0,0,0.08);
             transition: all .3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .contact-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 0%;
+            background: linear-gradient(180deg, transparent, var(--secondary));
+            transition: height 0.4s ease;
+            z-index: 0;
+        }
+        .contact-card:hover::after {
+            height: 100%;
+        }
+        .contact-card h3,
+        .contact-card a,
+        .contact-card p {
+            position: relative;
+            z-index: 1;
         }
         .contact-card:hover {
-            transform: translateY(-5px);
+            transform: translateY(-5px) rotate(1deg);
             box-shadow: 0 10px 30px rgba(201, 166, 255, 0.2);
         }
         .contact-card h3 {
@@ -348,6 +418,10 @@
             margin-bottom: 15px;
             color: var(--text-dark);
             letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         .contact-card a {
             color: var(--primary);
@@ -355,6 +429,8 @@
             font-weight: 500;
             transition: color .3s;
             letter-spacing: -0.2px;
+            display: inline-block;
+            word-break: break-all;
         }
         .contact-card a:hover {
             color: var(--text-dark);
@@ -419,7 +495,7 @@
         <p class="section-subtitle">A selection of projects I've built and contributed to</p>
         <div class="grid">
             <div class="card project-card">
-                <div class="project-img">🏫</div>
+                <div class="project-img"></div>
                 <h3>Campus Connect</h3>
                 <p>Campus Connect is a mobile app for Iowa State students that helps you discover and connect with campus organizations, clubs, and events. Using an AI-powered matching system, it recommends opportunities based on your profile and interests, and sends real-time notifications from clubs and organizations you join.</p>
                 <div class="tech-tags">
@@ -430,7 +506,7 @@
                 </div>
             </div>
             <div class="card project-card">
-                <div class="project-img">🌾</div>
+                <div class="project-img"></div>
                 <h3>Farm to Table</h3>
                 <p>Farm to Table is a web platform that connects customers directly with local Iowa farmers to purchase high-quality beef, including ½ or ¼ cows. The platform helps users discover nearby farmers, manage orders, and coordinate pickups or deliveries, making it easy to access fresh, locally sourced meat straight from the farm.</p>
                 <div class="tech-tags">
@@ -442,7 +518,7 @@
                 </div>
             </div>
             <div class="card project-card">
-                <div class="project-img">⚔️</div>
+                <div class="project-img"></div>
                 <h3>Pokemon Battle Game</h3>
                 <p>A turn-based RPG where players explore open environments, battle wandering trainers, and capture unique creatures to build their team. The game features strategic creature battles, healing centers for recovery, and dynamic exploration across different maps and terrains. Capture diverse creatures, train your team, and explore!</p>
                 <div class="tech-tags">
@@ -539,19 +615,19 @@
         <p class="section-subtitle">I'm always open to discussing new opportunities and projects</p>
         <div class="contact-grid">
             <div class="contact-card">
-                <h3>📧 Email</h3>
+                <h3><span>📧</span> Email</h3>
                 <a href="mailto:clairemiller064@gmail.com">clairemiller064@gmail.com</a>
             </div>
             <div class="contact-card">
-                <h3>💼 LinkedIn</h3>
+                <h3><span>💼</span> LinkedIn</h3>
                 <a href="https://linkedin.com/in/clairemiller03" target="_blank">linkedin.com/in/clairemiller03</a>
             </div>
             <div class="contact-card">
-                <h3>💻 GitHub</h3>
+                <h3><span>💻</span> GitHub</h3>
                 <a href="https://github.com/clairem03" target="_blank">github.com/clairem03</a>
             </div>
             <div class="contact-card">
-                <h3>📄 Resume</h3>
+                <h3><span>📄</span> Resume</h3>
                 <a href="/resume.pdf" target="_blank">Download Resume</a>
             </div>
         </div>
