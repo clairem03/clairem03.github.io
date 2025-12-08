@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Claire | Portfolio</title>
+    <title>Claire Miller | Portfolio</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
     <style>
         :root {
@@ -278,6 +278,7 @@
             padding-left: 25px;
             position: relative;
             letter-spacing: -0.2px;
+            line-height: 1.6;
         }
         .card li::before {
             content: '▹';
@@ -369,7 +370,7 @@
         .timeline-item h4 {
             font-size: 0.9rem;
             color: var(--primary);
-            margin-bottom: 5px;
+            margin-bottom: 8px;
             font-weight: 600;
             letter-spacing: -0.2px;
         }
@@ -469,9 +470,9 @@
             <div class="logo">Claire Miller</div>
             <nav>
                 <a href="#home" class="active">Home</a>
+                <a href="#experience">Experience</a>
                 <a href="#projects">Projects</a>
                 <a href="#skills">Skills</a>
-                <a href="#experience">Experience</a>
                 <a href="#contact">Contact</a>
             </nav>
         </div>
@@ -481,11 +482,63 @@
         <div class="hero-content">
             <div class="profile-img">CM</div>
             <h1>Hi, I'm Claire Miller</h1>
-            <p class="tagline">Software Engineering Senior at Iowa State University, passionate about creating smooth, beautiful user experiences and building impactful solutions.</p>
-            <p class="subtitle">Product Management • Full-Stack Development • Web Development</p>
+            <p class="tagline">Software Engineering Senior at Iowa State University with a Hospitality Management minor, graduating December 2026.</p>
+            <p class="subtitle">Product Management • Full-Stack Development • Mobile & Web Development</p>
             <div class="cta-buttons">
-                <a href="#projects" class="btn btn-primary">View My Work</a>
+                <a href="#experience" class="btn btn-primary">View My Experience</a>
                 <a href="#contact" class="btn btn-secondary">Get in Touch</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience" class="section">
+        <h2>Experience</h2>
+        <p class="section-subtitle">My professional journey</p>
+        <div class="grid">
+            <div class="card">
+                <h3>Delta Airlines</h3>
+                <div class="timeline-item">
+                    <h4>Product Management Co-Op | Atlanta, GA | January 2025 – August 2025</h4>
+                    <ul>
+                        <li>Led design and delivery of an internal automation system eliminating 800+ manual work hours per month, generating ~$150K in annual cost savings.</li>
+                        <li>Acted as product owner for automation initiatives; gathered requirements, wrote user stories, prioritized backlog, and drove execution with engineering teams.</li>
+                        <li>Built real-time KPI dashboards using SQL, Excel, and VBA to support leadership decisions and optimize operational resource allocation.</li>
+                        <li>Owned end-to-end product lifecycle from ideation through launch, conducting user interviews, A/B testing dashboard features, and iterating based on feedback.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Farm to Table</h3>
+                <div class="timeline-item">
+                    <h4>Co-Founder • Product Manager / Frontend Developer | October 2025 – Present</h4>
+                    <ul>
+                        <li>Leading the development of an early-stage platform connecting consumers with local farmers for bulk beef purchases.</li>
+                        <li>Designing the UI/UX, creating wireframes, and building frontend components using HTML, CSS, and JavaScript.</li>
+                        <li>Collaborating with a small engineering group to plan the MVP, align on technical constraints, and iterate on layout, user flows, and core functionality.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Iowa State University</h3>
+                <div class="timeline-item">
+                    <h4>Software Engineering Peer Mentor | Ames, IA | March 2025 – Present</h4>
+                    <ul>
+                        <li>Teach software engineering fundamentals to 40+ first-year students through lectures and hands-on lab instruction.</li>
+                        <li>Partner with faculty to improve onboarding processes and foster an inclusive learning environment.</li>
+                        <li>Facilitated collaborative learning sessions focusing on problem-solving approaches, algorithm optimization, and system design concepts.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card">
+                <h3>Sukup Manufacturing Co.</h3>
+                <div class="timeline-item">
+                    <h4>Software Engineering Intern | Sheffield, IA | May 2023 – August 2023</h4>
+                    <ul>
+                        <li>Developed internal software tools using VBA and SQL, reducing manual data entry time by 30% across manufacturing and inventory workflows.</li>
+                        <li>Built automated macros and test scripts, cutting manual testing and reporting effort by 40%.</li>
+                        <li>Optimized SQL queries to improve system performance and documented tooling for long-term adoption.</li>
+                    </ul>
+                </div>
             </div>
         </div>
     </section>
@@ -495,35 +548,29 @@
         <p class="section-subtitle">A selection of projects I've built and contributed to</p>
         <div class="grid">
             <div class="card project-card">
-                <div class="project-img"></div>
+                <div class="project-img">📱</div>
                 <h3>Campus Connect</h3>
-                <p>Campus Connect is a mobile app for Iowa State students that helps you discover and connect with campus organizations, clubs, and events. Using an AI-powered matching system, it recommends opportunities based on your profile and interests, and sends real-time notifications from clubs and organizations you join.</p>
+                <p><strong>Android Developer | October 2023 – December 2024</strong></p>
+                <p>Built Android mobile frontend in Java using Android Studio, integrating REST APIs with a Spring Boot backend and MySQL database. Implemented AI-powered club recommendation UI and coordinated API contracts with backend engineers. Improved usability and performance through modular UI components and clean architecture practices.</p>
                 <div class="tech-tags">
+                    <span class="tag">Java</span>
                     <span class="tag">Android Studio</span>
                     <span class="tag">Spring Boot</span>
-                    <span class="tag">Java</span>
                     <span class="tag">MySQL</span>
+                    <span class="tag">REST APIs</span>
                 </div>
             </div>
             <div class="card project-card">
-                <div class="project-img"></div>
-                <h3>Farm to Table</h3>
-                <p>Farm to Table is a web platform that connects customers directly with local Iowa farmers to purchase high-quality beef, including ½ or ¼ cows. The platform helps users discover nearby farmers, manage orders, and coordinate pickups or deliveries, making it easy to access fresh, locally sourced meat straight from the farm.</p>
+                <div class="project-img">🎮</div>
+                <h3>Turn-Based RPG Game</h3>
+                <p><strong>C / C++ Developer | January 2024 – May 2024</strong></p>
+                <p>Built a Pokémon-inspired RPG in C / C++, using object-oriented design, game logic, and user interaction features. Designed turn-order system using heap data structure and implemented pathfinding algorithms for NPC movement.</p>
                 <div class="tech-tags">
-                    <span class="tag">Jango</span>
-                    <span class="tag">DynamoDB</span>
-                    <span class="tag">Stripe API</span>
-                    <span class="tag">HTML</span>
-                    <span class="tag">Node.js</span>
-                </div>
-            </div>
-            <div class="card project-card">
-                <div class="project-img"></div>
-                <h3>Pokemon Battle Game</h3>
-                <p>A turn-based RPG where players explore open environments, battle wandering trainers, and capture unique creatures to build their team. The game features strategic creature battles, healing centers for recovery, and dynamic exploration across different maps and terrains. Capture diverse creatures, train your team, and explore!</p>
-                <div class="tech-tags">
-                    <span class="tag">VS Code</span>
+                    <span class="tag">C</span>
                     <span class="tag">C++</span>
+                    <span class="tag">OOP</span>
+                    <span class="tag">Data Structures</span>
+                    <span class="tag">Algorithms</span>
                 </div>
             </div>
         </div>
@@ -536,77 +583,31 @@
             <div class="card">
                 <div class="skill-category">
                     <h4>Languages</h4>
-                    <p>Java, C, C++, Python, SQL, VBA, JavaScript, HTML, CSS</p>
+                    <p>Java, Python, C, C++, SQL, JavaScript, VBA</p>
                 </div>
                 <div class="skill-category">
-                    <h4>Frameworks & Libraries</h4>
-                    <p>React, Node.js, Spring Boot, Express.js, Android SDK</p>
+                    <h4>Frameworks & Tools</h4>
+                    <p>Spring Boot, React, Node.js, Android Studio, MongoDB</p>
                 </div>
             </div>
             <div class="card">
                 <div class="skill-category">
-                    <h4>Tools & Platforms</h4>
-                    <p>Git, MongoDB, MySQL, Firebase, Android Studio, VS Code, Postman</p>
+                    <h4>Product & Data</h4>
+                    <p>SQL, Excel, Tableau, Power BI, User Stories, Roadmapping</p>
                 </div>
                 <div class="skill-category">
                     <h4>Core Competencies</h4>
-                    <p>Mobile App Development, Full-Stack Web Development, Database Design, RESTful APIs</p>
+                    <p>Mobile App Development, Web Development, Database Design, RESTful APIs</p>
                 </div>
             </div>
             <div class="card">
                 <div class="skill-category">
-                    <h4>Product & Design</h4>
-                    <p>Product Management, User Interface Design, Agile Methodology, User Research</p>
+                    <h4>Product Management</h4>
+                    <p>Agile Methodology, User Research, A/B Testing, Requirements Gathering</p>
                 </div>
                 <div class="skill-category">
                     <h4>Soft Skills</h4>
-                    <p>Team Collaboration, Problem Solving, Project Management, Communication</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="experience" class="section">
-        <h2>Experience</h2>
-        <p class="section-subtitle">My professional journey</p>
-        <div class="grid">
-            <div class="card">
-                <h3>Delta Airlines</h3>
-                <div class="timeline-item">
-                    <h4>Product Management Co-op | Spring & Summer 2025</h4>
-                    <ul>
-                        <li>Designed and implemented an automation sweeper that eliminated over 800 manual work hours per month, resulting in approximately $150,000 in annual savings.</li>
-                        <li>Reduced operational queue volume by 90% by streamlining workflows and building automated processes that prevented backlog and manual intervention.</li>
-                        <li>Acted as product owner for internal automation tools, gathering requirements, defining user stories, and coordinating development and rollout timelines.</li>
-                        <li>Built real-time performance dashboards using Excel, SQL, and VBA to provide leadership with actionable insights for staffing and resource planning.</li>
-                        <li>Collaborated with engineers, analysts, and operations leaders to validate requirements, refine features, and support successful adoption of new automation capabilities.</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="card">
-                <h3>Iowa State University</h3>
-                <div class="timeline-item">
-                    <h4>Software Engineering Peer Mentor | Fall 2025 - Present</h4>
-                    <ul>
-                        <li>Teach and lead SE 186, delivering course content, guiding students through core software engineering concepts, and designing a supportive learning environment.</li>
-                        <li>Instruct and manage the SE 185 lab, helping students debug code, understand programming fundamentals, and build confidence in hands-on problem-solving.</li>
-                        <li>Support students across multiple SE courses by clarifying concepts, reviewing assignments, and helping them navigate their first-year engineering curriculum.</li>
-                        <li>Participate in weekly coordination meetings with academic advisors and program leaders to discuss student progress, address challenges, and strengthen course support.</li>
-                        <li>Cultivate an approachable, inclusive classroom atmosphere that encourages questions, growth, and continuous engagement with course material.</li>
-                    </ul>
-                </div>
-            </div>
-            <div class="card">
-                <h3>Sukup Manufacturing</h3>
-                <div class="timeline-item">
-                    <h4>Software Engineering Intern | Summer 2023</h4>
-                    <ul>
-                        <li>Developed and maintained internal software tools used across manufacturing and inventory operations, improving workflow efficiency and reducing manual data entry time by 30%.</li>
-                        <li>Built automated VBA macros and testing scripts in Microsoft Office/Visual Studio, cutting manual testing and reporting time by 40%.</li>
-                        <li>Collaborated with engineers to refine and optimize SQL queries, resulting in smoother system performance and faster data access.</li>
-                        <li>Created clear, user-friendly documentation and training materials to support onboarding and adoption of new software features.</li>
-                        <li>Assisted in debugging and enhancing internal applications, helping resolve issues and deliver more reliable tools for operations.</li>
-                    </ul>
+                    <p>Cross-Functional Collaboration, Problem Solving, Technical Leadership, Communication</p>
                 </div>
             </div>
         </div>
@@ -617,26 +618,26 @@
         <p class="section-subtitle">I'm always open to discussing new opportunities and projects</p>
         <div class="contact-grid">
             <div class="contact-card">
-                <h3><span></span> Email</h3>
+                <h3>📧 Email</h3>
                 <a href="mailto:clairemiller064@gmail.com">clairemiller064@gmail.com</a>
             </div>
             <div class="contact-card">
-                <h3><span></span> LinkedIn</h3>
+                <h3>💼 LinkedIn</h3>
                 <a href="https://linkedin.com/in/clairemiller03" target="_blank">linkedin.com/in/clairemiller03</a>
             </div>
             <div class="contact-card">
-                <h3><span></span> GitHub</h3>
+                <h3>💻 GitHub</h3>
                 <a href="https://github.com/clairem03" target="_blank">github.com/clairem03</a>
             </div>
             <div class="contact-card">
-                <h3><span></span> Resume</h3>
+                <h3>📄 Resume</h3>
                 <a href="/resume.pdf" target="_blank">Download Resume</a>
             </div>
         </div>
     </section>
 
     <footer>
-        <p>© 2025 Claire Miller • Built with HTML & CSS</p>
+        <p>© 2025 Claire Miller • Software Engineering @ Iowa State University</p>
     </footer>
 
     <script>
