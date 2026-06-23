@@ -115,6 +115,7 @@
     border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;
     transition:transform .25s,box-shadow .25s,border-color .25s;display:flex;flex-direction:column;
   }
+  a.proj{text-decoration:none}                /* cards are now links to case studies */
   .proj:hover{transform:translateY(-4px);box-shadow:0 18px 40px -22px rgba(28,26,23,.35);border-color:#d9d1c2}
   .ph{
     aspect-ratio:16/10;background:
@@ -131,6 +132,9 @@
   .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
   .tag{font-family:var(--mono);font-size:.66rem;letter-spacing:.04em;color:var(--slate);
     background:var(--accent-tint);padding:5px 10px;border-radius:6px}
+  .proj-cta{margin-top:10px;font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
+    text-transform:uppercase;color:var(--accent);display:inline-flex;align-items:center;gap:6px;transition:gap .2s}
+  .proj:hover .proj-cta{gap:11px}
 
   /* ---- experience timeline ---- */
   .tl{border-left:1px solid var(--line);margin-left:6px}
@@ -252,50 +256,54 @@
     <div class="work-grid">
 
       <!-- PROJECT 1 — Odyssey -->
-      <article class="proj reveal">
+      <a class="proj reveal" href="projects/odyssey.html">
         <img class="ph-img" src="images/odyssey-cover.png" alt="Odyssey — outdoor trips platform">
         <div class="proj-body">
           <span class="proj-role">UI/UX · Branding · Frontend</span>
           <h3>Odyssey — Senior Capstone</h3>
           <p>A six-person senior capstone project creating a platform for students to discover and sign up for outdoor trips while organizers manage trip details in one place. I led client relations, designed the branding and UI/UX, and contributed to frontend development.</p>
           <div class="tags"><span class="tag">Logo Design</span><span class="tag">Theming</span><span class="tag">Wireframing</span><span class="tag">UI/UX</span><span class="tag">Frontend</span></div>
+          <span class="proj-cta">View case study &rarr;</span>
         </div>
-      </article>
+      </a>
 
       <!-- PROJECT 2 — Farm to Table -->
-      <article class="proj reveal">
+      <a class="proj reveal" href="projects/farm-to-table.html">
         <img class="ph-img" src="images/farm-to-table-cover.png" alt="Farm to Table">
         <div class="proj-body">
           <span class="proj-role">Product Design · Co-Founder</span>
           <h3>Farm to Table</h3>
           <p>An early-stage platform connecting consumers with local farmers for bulk beef purchases. As a co-founder, I led user research, wireframing, and frontend development from concept to MVP.</p>
           <div class="tags"><span class="tag">UX Research</span><span class="tag">Wireframing</span><span class="tag">User Flows</span><span class="tag">Frontend</span></div>
+          <span class="proj-cta">View case study &rarr;</span>
         </div>
-      </article>
+      </a>
 
       <!-- PROJECT 3 — Campus Connect -->
-      <article class="proj reveal">
+      <a class="proj reveal" href="projects/campus-connect.html">
         <img class="ph-img" src="images/campus-connect-cover.png" alt="Campus Connect">
         <div class="proj-body">
           <span class="proj-role">Mobile UI · Android</span>
           <h3>Campus Connect</h3>
           <p>An Android app that helps students discover campus organizations and communities. I built the mobile frontend in Java and integrated APIs to support club discovery and recommendations.</p>
           <div class="tags"><span class="tag">Mobile UI</span><span class="tag">Android</span><span class="tag">Java</span><span class="tag">REST APIs</span></div>
+          <span class="proj-cta">View case study &rarr;</span>
         </div>
-      </article>
+      </a>
 
       <!-- PROJECT 4 — Syncro (HCI) -->
-      <article class="proj reveal">
+      <a class="proj reveal" href="projects/syncro.html">
         <img class="ph-img" src="images/syncro-cover.png" alt="Syncro — travel and calendar app">
         <div class="proj-body">
           <span class="proj-role">UX Design · HCI</span>
           <h3>Syncro — HCI Project</h3>
           <p>An HCI project focused on simplifying travel through traffic alerts, departure reminders, and parking assistance. I contributed to user research, prototyping, and usability testing to improve the user experience.</p>
           <div class="tags"><span class="tag">User Research</span><span class="tag">Prototyping</span><span class="tag">Usability Testing</span><span class="tag">Figma</span></div>
+          <span class="proj-cta">View case study &rarr;</span>
         </div>
-      </article>
+      </a>
 
-      <!-- To add more: copy one <article class="proj reveal"> ... </article> block. -->
+      <!-- To add more: copy one <a class="proj reveal" href="projects/your-page.html"> ... </a> block. -->
 
     </div>
   </section>
