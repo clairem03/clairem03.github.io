@@ -1,4 +1,8 @@
-
+/* =========================================================
+   case-study.css — shared styles for project case studies
+   Matches the main portfolio: Fraunces / Inter / JetBrains Mono,
+   warm paper + wine accent. Retune everything from :root.
+   ========================================================= */
 :root{
   --paper:#FBF9F5;
   --paper-2:#F2EDE3;
@@ -122,6 +126,8 @@ img{display:block;max-width:100%}
 .fig{margin-top:18px}
 .fig img{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff;display:block}
 .fig figcaption{font-family:var(--mono);font-size:.68rem;letter-spacing:.04em;color:var(--slate);margin-top:10px}
+.fig.phone img{max-width:300px;margin:0 auto}
+.fig.phone figcaption{text-align:center}
 
 /* gallery */
 .gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:1.4rem;margin-top:6px;align-items:start}
