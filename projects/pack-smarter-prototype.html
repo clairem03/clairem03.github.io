@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Pack Smarter — Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --navy:#21305C; --navy-2:#2C3E70; --navy-soft:#56618C;
+    --paper:#FFFFFF; --screen:#F7FAFE; --line:#E4ECF8; --line-2:#EEF3FB;
+    --muted:#8A92AD; --ink:#21305C;
+    --blue:#5C8DEC; --blue-d:#4A79DA; --blue-soft:#DCEAFC;
+    /* cute pastel category tints */
+    --t-1:#D8E8FC; --t-2:#E3E1FB; --t-3:#D6EEEA; --t-4:#FBE7D5;
+    --disp:'Fredoka',system-ui,sans-serif;
+    --body:'Nunito',system-ui,sans-serif;
+    --mono:'DM Mono',ui-monospace,monospace;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  body{font-family:var(--body);color:var(--ink);min-height:100vh;
+    background:
+      radial-gradient(820px 460px at 12% -4%, #FFFFFF 0%, transparent 62%),
+      radial-gradient(760px 520px at 92% 8%, #E7F0FE 0%, transparent 58%),
+      linear-gradient(165deg, #EAF2FE 0%, #F3F8FF 52%, #EAF1FC 100%);}
+
+  /* ===== prototype shell / control bar ===== */
+  .bar{position:sticky;top:0;z-index:40;display:flex;align-items:center;gap:18px;flex-wrap:wrap;
+    padding:14px 26px;background:rgba(28,42,84,.92);backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(255,255,255,.08)}
+  .bar .brand{font-family:var(--disp);font-weight:700;font-size:1.1rem;letter-spacing:-.01em;color:#F4F8FF}
+  .bar .brand b{color:#9CC0FF;font-weight:700}
+  .seg{display:flex;background:rgba(255,255,255,.08);border-radius:999px;padding:3px;gap:2px}
+  .seg button{font-family:var(--body);font-weight:800;font-size:.78rem;color:#aebbe0;
+    background:none;border:none;padding:8px 16px;border-radius:999px;cursor:pointer;transition:.18s}
+  .seg button:hover{color:#eef3ff}
+  .seg button.on{background:#F4F8FF;color:var(--navy)}
+  .bar select{font-family:var(--body);font-weight:700;font-size:.78rem;color:#eef3ff;
+    background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:999px;padding:9px 14px;cursor:pointer}
+  .bar select option{color:#21305C}
+  .bar .hint{font-family:var(--body);font-weight:700;font-size:.76rem;color:#7c87ad;margin-left:auto}
+
+  /* ===== stage + device ===== */
+  .stage{display:flex;justify-content:center;padding:46px 20px 90px}
+  .stage.gallery{flex-direction:column;align-items:center;gap:46px}
+  .device{width:980px;max-width:96vw;border-radius:26px;overflow:hidden;background:var(--screen);
+    box-shadow:0 40px 80px -36px rgba(33,48,92,.42), 0 0 0 1px rgba(33,48,92,.05);}
+  .stage:not(.gallery) .device{display:none}
+  .stage:not(.gallery) .device.active{display:block}
+  .b-label{display:none;font-family:var(--body);font-weight:800;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;
+    color:#7e8ab0;margin-top:16px;text-align:center}
+  .gallery .b-label{display:block}
+
+  .chrome{display:flex;align-items:center;gap:8px;padding:14px 20px;background:#EDF3FD;border-bottom:1px solid var(--line)}
+  .chrome .dot{width:10px;height:10px;border-radius:50%}
+  .chrome .dot:nth-child(1){background:#9CC0FF}.chrome .dot:nth-child(2){background:#B8B4F2}.chrome .dot:nth-child(3){background:#9BD8C9}
+  .chrome .url{margin-left:14px;font-family:var(--mono);font-size:.74rem;color:#9aa5c4;letter-spacing:.01em}
+  .screen{background:var(--screen);min-height:600px;position:relative;overflow:hidden}
+  .pad{padding:54px 60px}
+
+  /* ===== shared type ===== */
+  .eyebrow{font-family:var(--mono);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)}
+  h1{font-family:var(--disp);font-weight:700;letter-spacing:-.01em;line-height:1.02}
+  .q-title{font-family:var(--disp);font-weight:600;font-size:1.5rem;color:var(--ink)}
+
+  /* ===== buttons ===== */
+  .btn{font-family:var(--disp);font-weight:600;font-size:1.05rem;border:none;cursor:pointer;
+    background:var(--navy);color:#F4F8FF;padding:15px 32px;border-radius:999px;display:inline-flex;align-items:center;gap:10px;
+    transition:transform .16s,background .16s,box-shadow .16s;box-shadow:0 16px 28px -14px rgba(33,48,92,.6)}
+  .btn:hover{background:#2B3E72;transform:translateY(-2px)}
+  .btn .arr{transition:transform .18s}
+  .btn:hover .arr{transform:translateX(3px)}
+  .btn.ghost{background:#fff;color:var(--ink);box-shadow:none;border:2px solid var(--line)}
+  .btn.ghost:hover{background:#fff;border-color:var(--blue);color:var(--blue-d);transform:translateY(-2px)}
+
+  /* ===== HERO ===== */
+  .hero{min-height:600px;display:flex;flex-direction:column;justify-content:center;padding:0 60px;position:relative}
+  .hero .wordmark{position:absolute;top:32px;left:60px;font-family:var(--disp);font-weight:700;font-size:1.1rem;color:var(--ink)}
+  .hero .wordmark b{color:var(--blue)}
+  .hero .eyebrow{margin-bottom:18px}
+  .hero h1{font-size:4.5rem;color:var(--ink);max-width:13ch}
+  .hero h1 em{font-style:normal;color:var(--blue)}
+  .hero p{font-size:1.18rem;line-height:1.5;color:var(--navy-soft);max-width:42ch;margin:22px 0 34px;font-weight:600}
+  .hero .row{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .stub{position:absolute;right:-1px;bottom:56px;display:flex;align-items:stretch;
+    background:var(--paper);border:1px solid var(--line);border-right:none;border-radius:20px 0 0 20px;overflow:hidden;
+    box-shadow:0 26px 52px -32px rgba(33,48,92,.4)}
+  .stub .perf{width:0;border-left:2px dashed var(--line);margin:16px 0}
+  .stub .col{padding:20px 24px}
+  .stub .k{font-family:var(--mono);font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .stub .v{font-family:var(--disp);font-weight:700;font-size:1.5rem;color:var(--ink);line-height:1.1;margin-top:4px}
+  .stub .v small{font-family:var(--body);font-weight:700;font-size:.82rem;color:var(--muted)}
+  .stub .note{max-width:17ch;font-size:.84rem;line-height:1.4;color:var(--navy-soft);font-weight:700;align-self:center}
+
+  /* ===== QUIZ ===== */
+  .quiz-head{margin-bottom:30px}
+  .quiz-head h1{font-size:2.5rem;color:var(--ink);margin-top:12px}
+  .qblock{padding:24px 0;border-top:1px solid var(--line)}
+  .qblock:first-of-type{border-top:none;padding-top:4px}
+  .qrow{display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap}
+  .qrow .q-title{flex:1;min-width:200px}
+
+  .stepper{display:inline-flex;align-items:center;gap:6px;background:var(--paper);border:1px solid var(--line);
+    border-radius:999px;padding:6px}
+  .stepper button{width:44px;height:44px;border-radius:50%;border:none;background:var(--screen);color:var(--ink);
+    font-size:1.5rem;font-weight:600;cursor:pointer;line-height:1;transition:.15s;font-family:var(--disp)}
+  .stepper button:hover{background:var(--navy);color:#F4F8FF}
+  .stepper .num{min-width:86px;text-align:center}
+  .stepper .num span{font-family:var(--mono);font-weight:500;font-size:1.7rem;color:var(--ink);letter-spacing:.02em}
+  .stepper .num small{display:block;font-family:var(--mono);font-size:.58rem;letter-spacing:.2em;
+    text-transform:uppercase;color:var(--muted);margin-top:-1px}
+
+  .chips{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
+  .chip{font-family:var(--disp);font-weight:500;font-size:.96rem;padding:11px 20px;border-radius:999px;
+    border:2px solid var(--line);background:var(--paper);color:var(--ink);cursor:pointer;
+    transition:transform .14s,background .14s,border-color .14s,color .14s}
+  .chip:hover{transform:translateY(-2px);border-color:#C9DBF6}
+  .chip.sel{background:var(--blue);border-color:var(--blue);color:#fff}
+  .quiz-cta{display:flex;justify-content:flex-end;margin-top:32px}
+
+  /* ===== LIST ===== */
+  .list-head h1{font-size:2.3rem;color:var(--ink)}
+  /* boarding pass */
+  .pass{display:flex;align-items:stretch;background:var(--navy);border-radius:18px;overflow:hidden;
+    margin:16px 0 14px;box-shadow:0 22px 40px -24px rgba(33,48,92,.55)}
+  .pass .lead{display:flex;flex-direction:column;justify-content:center;padding:16px 24px;background:rgba(255,255,255,.06)}
+  .pass .lead .k{font-family:var(--mono);font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:#9fb0db}
+  .pass .lead .t{font-family:var(--disp);font-weight:700;font-size:1.18rem;color:#F4F8FF;margin-top:3px}
+  .pass .fields{display:flex;flex:1;align-items:center}
+  .pass .f{padding:16px 24px;border-left:1px dashed rgba(255,255,255,.2)}
+  .pass .f .k{font-family:var(--mono);font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:#9fb0db}
+  .pass .f .v{font-family:var(--mono);font-weight:500;font-size:1.05rem;color:#F4F8FF;margin-top:5px;letter-spacing:.02em}
+  .pass .f .v .hl{color:#9CC0FF}
+  .tip{display:flex;align-items:center;gap:9px;font-family:var(--body);font-weight:700;font-size:.84rem;
+    color:var(--navy-soft);margin:0 2px 24px}
+  .tip .pin{width:7px;height:7px;border-radius:50%;background:var(--blue);flex:0 0 auto}
+
+  .acc{background:var(--paper);border:1px solid var(--line);border-radius:18px;overflow:hidden;margin-bottom:12px;transition:border-color .18s}
+  .acc.open{border-color:#CFE0F8}
+  .acc-head{display:flex;align-items:center;gap:15px;width:100%;border:none;cursor:pointer;background:none;
+    padding:18px 20px;font-family:var(--disp);font-weight:600;font-size:1.18rem;color:var(--ink);text-align:left}
+  .acc-head .idx{width:36px;height:36px;border-radius:11px;display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-weight:500;font-size:.82rem;color:var(--navy);flex:0 0 auto}
+  .acc:nth-child(1) .idx{background:var(--t-1)} .acc:nth-child(2) .idx{background:var(--t-2)}
+  .acc:nth-child(3) .idx{background:var(--t-3)} .acc:nth-child(4) .idx{background:var(--t-4)}
+  .acc-head .count{margin-left:auto;font-family:var(--mono);font-size:.74rem;color:var(--muted);letter-spacing:.03em}
+  .acc-head .chev{width:18px;height:18px;color:var(--muted);transition:transform .22s}
+  .acc.open .acc-head .chev{transform:rotate(180deg)}
+  .acc-body{display:none;padding:2px 20px 16px 71px}
+  .acc.open .acc-body{display:block}
+  .item{display:flex;align-items:center;gap:13px;padding:11px 2px;cursor:pointer;font-size:.98rem;font-weight:700;
+    color:var(--ink);border-top:1px solid var(--line-2)}
+  .acc-body .item:first-child{border-top:none}
+  .item input{position:absolute;opacity:0;width:0;height:0}
+  .item .box{width:22px;height:22px;border-radius:7px;border:2px solid #C6D5EE;flex:0 0 auto;
+    display:flex;align-items:center;justify-content:center;transition:.15s}
+  .item .box svg{width:13px;height:13px;opacity:0;color:#fff}
+  .item input:checked + .box{background:var(--blue);border-color:var(--blue)}
+  .item input:checked + .box svg{opacity:1}
+  .item input:checked ~ .txt{text-decoration:line-through;color:var(--muted)}
+
+  .additem{display:flex;gap:10px;margin-top:18px}
+  .additem input[type=text]{flex:1;font-family:var(--body);font-weight:700;font-size:.95rem;padding:14px 18px;
+    border-radius:14px;border:2px solid var(--line);background:var(--paper);color:var(--ink)}
+  .additem input[type=text]::placeholder{color:#A6AFC8;font-weight:600}
+  .additem input[type=text]:focus{outline:none;border-color:var(--blue)}
+  .additem button{font-family:var(--disp);font-weight:600;font-size:.98rem;border:none;background:var(--navy);color:#F4F8FF;
+    border-radius:14px;padding:0 24px;cursor:pointer;transition:.15s}
+  .additem button:hover{background:#2B3E72}
+  .list-cta{display:flex;justify-content:flex-end;margin-top:26px}
+
+  /* ===== READY ===== */
+  .ready{min-height:600px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:0 56px}
+  .ready .mark{width:70px;height:70px;border-radius:22px;background:var(--navy);display:flex;align-items:center;justify-content:center;
+    margin-bottom:26px;box-shadow:0 18px 34px -16px rgba(33,48,92,.6)}
+  .ready .mark svg{width:32px;height:32px;color:#9CC0FF}
+  .ready h1{font-size:3.4rem;color:var(--ink)}
+  .ready .sub{font-family:var(--mono);font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px}
+  .ready p{font-size:1.12rem;color:var(--navy-soft);font-weight:600;margin-bottom:32px;max-width:34ch}
+  .ready .cta{display:flex;gap:13px}
+
+  @media (max-width:720px){
+    .pad{padding:36px 26px}
+    .hero{padding:0 30px}.hero .wordmark{left:30px}.hero h1{font-size:3rem}.hero p{font-size:1.05rem}
+    .stub{display:none}
+    .qrow{align-items:flex-start}.chips{justify-content:flex-start}
+    .quiz-cta,.list-cta{justify-content:stretch}.quiz-cta .btn,.list-cta .btn{flex:1;justify-content:center}
+    .pass{flex-direction:column}.pass .fields{flex-wrap:wrap}.pass .f{border-left:none;border-top:1px dashed rgba(255,255,255,.2)}
+    .acc-body{padding-left:20px}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+  :focus-visible{outline:2.5px solid var(--blue);outline-offset:3px;border-radius:10px}
+</style>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></symbol>
+</svg>
+
+<div class="bar">
+  <div class="brand">Pack&nbsp;Smarter<b>.</b></div>
+  <div class="seg">
+    <button id="m-flow" class="on" onclick="setMode('flow')">Flow</button>
+    <button id="m-gal" onclick="setMode('gallery')">All screens</button>
+  </div>
+  <select id="jump" onchange="go(this.value)" aria-label="Jump to screen">
+    <option value="hero">01 — Home</option>
+    <option value="quiz">02 — Trip details</option>
+    <option value="list">03 — Packing list</option>
+    <option value="ready">04 — Ready</option>
+  </select>
+  <div class="hint">Click through the flow ↗</div>
+</div>
+
+<div class="stage" id="stage">
+
+  <!-- ===== 01 HERO ===== -->
+  <div class="device active" data-id="hero">
+    <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">packsmarter.app</span></div>
+    <div class="screen"><div class="hero">
+      <div class="wordmark">Pack&nbsp;Smarter<b>.</b></div>
+      <div class="eyebrow">Smart packing list</div>
+      <h1>Pack light.<br>Pack <em>right.</em></h1>
+      <p>Three quick questions about your trip. One tidy list with exactly what you need — and nothing you don't.</p>
+      <div class="row">
+        <button class="btn" data-go="quiz">Start packing <span class="arr">→</span></button>
+      </div>
+      <div class="stub" aria-hidden="true">
+        <div class="col"><div class="k">No more</div><div class="v">7 pairs <small>of socks</small></div></div>
+        <div class="perf"></div>
+        <div class="col"><div class="note">for a 3-day trip. Bring what fits the trip you're actually taking.</div></div>
+      </div>
+    </div></div>
+    <div class="b-label">01 · Home</div>
+  </div>
+
+  <!-- ===== 02 QUIZ ===== -->
+  <div class="device" data-id="quiz">
+    <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">packsmarter.app/trip</span></div>
+    <div class="screen"><div class="pad">
+      <div class="quiz-head">
+        <div class="eyebrow">Trip details</div>
+        <h1>Tell us about the trip.</h1>
+      </div>
+
+      <div class="qblock"><div class="qrow">
+        <div class="q-title">How many days will you be gone?</div>
+        <div class="stepper">
+          <button onclick="stepDays(-1)" aria-label="fewer days">–</button>
+          <div class="num"><span id="dayNum">03</span><small>days</small></div>
+          <button onclick="stepDays(1)" aria-label="more days">+</button>
+        </div>
+      </div></div>
+
+      <div class="qblock"><div class="qrow">
+        <div class="q-title">What's the weather like?</div>
+        <div class="chips" id="weatherChips">
+          <button class="chip" data-key="cold" onclick="pickWeather(this)">Cold</button>
+          <button class="chip" data-key="cool" onclick="pickWeather(this)">50–65°</button>
+          <button class="chip sel" data-key="mild" onclick="pickWeather(this)">65–75°</button>
+          <button class="chip" data-key="warm" onclick="pickWeather(this)">Warm</button>
+        </div>
+      </div></div>
+
+      <div class="qblock"><div class="qrow">
+        <div class="q-title">What kind of trip is it?</div>
+        <div class="chips" id="tripChips">
+          <button class="chip" data-key="outdoors" onclick="pickTrip(this)">Outdoors</button>
+          <button class="chip" data-key="relax" onclick="pickTrip(this)">Relaxing</button>
+          <button class="chip sel" data-key="city" onclick="pickTrip(this)">City</button>
+        </div>
+      </div></div>
+
+      <div class="quiz-cta"><button class="btn" onclick="buildList();go('list')">Build my list <span class="arr">→</span></button></div>
+    </div></div>
+    <div class="b-label">02 · Trip details</div>
+  </div>
+
+  <!-- ===== 03 LIST ===== -->
+  <div class="device" data-id="list">
+    <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">packsmarter.app/list</span></div>
+    <div class="screen"><div class="pad">
+      <div class="list-head">
+        <div class="eyebrow">Your packing list</div><h1>Here's what to bring.</h1>
+      </div>
+
+      <div class="pass" id="pass">
+        <div class="lead"><div class="k">Trip</div><div class="t">Packing pass</div></div>
+        <div class="fields" id="passFields"></div>
+      </div>
+      <div class="tip"><span class="pin"></span><span id="tipText">Packed the 3-3-3 way — light, with a laundry run midway.</span></div>
+
+      <div class="acc open" data-cat="Clothes">
+        <button class="acc-head" onclick="toggleAcc(this)"><span class="idx">01</span>Clothes<span class="count">0 items</span><svg class="chev"><use href="#chev"/></svg></button>
+        <div class="acc-body"></div>
+      </div>
+      <div class="acc" data-cat="Essentials">
+        <button class="acc-head" onclick="toggleAcc(this)"><span class="idx">02</span>Essentials<span class="count">0 items</span><svg class="chev"><use href="#chev"/></svg></button>
+        <div class="acc-body"></div>
+      </div>
+      <div class="acc" data-cat="Toiletries">
+        <button class="acc-head" onclick="toggleAcc(this)"><span class="idx">03</span>Toiletries<span class="count">0 items</span><svg class="chev"><use href="#chev"/></svg></button>
+        <div class="acc-body"></div>
+      </div>
+      <div class="acc" data-cat="Extras">
+        <button class="acc-head" onclick="toggleAcc(this)"><span class="idx">04</span>Extras<span class="count">0 items</span><svg class="chev"><use href="#chev"/></svg></button>
+        <div class="acc-body"></div>
+      </div>
+
+      <div class="additem">
+        <input type="text" id="customItem" placeholder="Add your own item…" onkeydown="if(event.key==='Enter')addCustom()">
+        <button onclick="addCustom()">Add</button>
+      </div>
+
+      <div class="list-cta"><button class="btn" data-go="ready">Looks good <span class="arr">→</span></button></div>
+    </div></div>
+    <div class="b-label">03 · Packing list</div>
+  </div>
+
+  <!-- ===== 04 READY ===== -->
+  <div class="device" data-id="ready">
+    <div class="chrome"><span class="dot"></span><span class="dot"></span><span class="dot"></span><span class="url">packsmarter.app/ready</span></div>
+    <div class="screen"><div class="ready">
+      <div class="mark"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-11"/></svg></div>
+      <h1>All set.</h1>
+      <div class="sub" id="readyCode">03 days · mild · city</div>
+      <p>Your list is ready. Tick items off as the bag fills up.</p>
+      <div class="cta">
+        <button class="btn ghost" data-go="list">← Review list</button>
+        <button class="btn" onclick="startOver()">Start over</button>
+      </div>
+    </div></div>
+    <div class="b-label">04 · Ready</div>
+  </div>
+
+</div>
+
+<script>
+  const state = { days:3, weather:'mild', trip:'city' };
+  const wLabel = {cold:'cold',cool:'cool',mild:'mild',warm:'warm'};
+  const tLabel = {outdoors:'outdoors',relax:'relaxing',city:'city'};
+  const devices = [...document.querySelectorAll('.device')];
+  const stage = document.getElementById('stage');
+  const jump = document.getElementById('jump');
+  const pad2 = n => String(n).padStart(2,'0');
+  const clamp = (v,a,b) => Math.max(a, Math.min(b, v));
+
+  function go(id){
+    const t = devices.find(b=>b.dataset.id===id); if(!t) return;
+    if(stage.classList.contains('gallery')) setMode('flow');
+    devices.forEach(b=>b.classList.toggle('active', b===t));
+    jump.value=id; window.scrollTo({top:0,behavior:'smooth'});
+  }
+  function setMode(m){
+    const gal = m==='gallery';
+    stage.classList.toggle('gallery',gal);
+    document.getElementById('m-gal').classList.toggle('on',gal);
+    document.getElementById('m-flow').classList.toggle('on',!gal);
+    if(gal) devices.forEach(b=>b.classList.add('active'));
+    else { const c=jump.value; devices.forEach(b=>b.classList.toggle('active',b.dataset.id===c)); }
+  }
+  document.addEventListener('click',e=>{const t=e.target.closest('[data-go]');if(t)go(t.dataset.go);});
+
+  function stepDays(d){ state.days=clamp(state.days+d,1,14); document.getElementById('dayNum').textContent=pad2(state.days); }
+  function pickWeather(el){
+    [...el.parentElement.children].forEach(c=>c.classList.remove('sel'));
+    el.classList.add('sel'); state.weather=el.dataset.key;
+  }
+  function pickTrip(el){
+    [...el.parentElement.children].forEach(c=>c.classList.remove('sel'));
+    el.classList.add('sel'); state.trip=el.dataset.key;
+  }
+  function toggleAcc(btn){ btn.parentElement.classList.toggle('open'); }
+
+  function buildList(){
+    const d=state.days, w=state.weather, t=state.trip;
+
+    // Laundry-aware quantities (3-3-3 inspired): a small capsule that mixes
+    // and matches, with essentials capped because you'll wash midway.
+    const tops    = clamp(d, 2, 6);
+    const bottoms = clamp(Math.ceil(d/3)+1, 1, 4);
+    const undies  = clamp(d+1, 2, 6);
+    const socks   = clamp(d+1, 2, 6);
+    const C=[
+      `${tops} tops (mix & match)`,
+      `${bottoms} bottoms`,
+      `${undies} pairs of underwear`,
+      `${socks} pairs of socks`,
+      '1 set of pajamas'
+    ];
+    if(w==='cold') C.push('Warm coat',`${clamp(Math.ceil(d/3),1,3)} sweaters`,'Thermal base layer','Beanie & gloves','Warm pants');
+    if(w==='cool') C.push('Light jacket',`${clamp(Math.ceil(d/3),1,2)} long-sleeve shirts`,'Jeans / long pants');
+    if(w==='mild') C.push('Light cardigan or layer','Comfortable pants');
+    if(w==='warm') C.push(`${clamp(Math.ceil(d/2),1,3)} pairs of shorts`,'Light dress / outfit','Swimsuit');
+    if(t==='outdoors') C.push('Moisture-wicking shirt','Hiking pants');
+    if(t==='city') C.push('1 nicer outfit');
+    if(t==='relax') C.push('Comfy loungewear');
+
+    const E=['Phone & charger','ID / passport','Wallet & cards','Headphones','Reusable water bottle','Daily medications'];
+    if(d>4) E.push('Backup power bank');
+
+    const T=['Toothbrush & toothpaste','Deodorant','Skincare basics','Hairbrush'];
+    if(d>2) T.push('Travel shampoo & conditioner');
+    if(w==='warm'||w==='mild') T.push('Sunscreen');
+    if(w==='cold') T.push('Lip balm & lotion');
+    if(t==='relax') T.push('Face masks');
+    if(d>3) T.push('Laundry detergent sheets');
+
+    const X=[];
+    if(t==='outdoors') X.push('Hiking boots','Daypack','Rain jacket','Trail snacks','Mini first-aid kit');
+    if(t==='relax') X.push('A good book','Sandals','Beach towel','Sun hat');
+    if(t==='city') X.push('Comfy walking shoes','Crossbody bag','Portable charger','Local guide / map');
+    if(w==='cold') X.push('Hand warmers');
+    if(w==='warm') X.push('Sunglasses');
+    X.push('Camera');
+
+    render({Clothes:C,Essentials:E,Toiletries:T,Extras:X});
+
+    document.getElementById('passFields').innerHTML =
+      `<div class="f"><div class="k">Days</div><div class="v"><span class="hl">${pad2(d)}</span></div></div>`+
+      `<div class="f"><div class="k">Weather</div><div class="v">${wLabel[w].toUpperCase()}</div></div>`+
+      `<div class="f"><div class="k">Type</div><div class="v">${tLabel[t].toUpperCase()}</div></div>`;
+    document.getElementById('tipText').textContent = d>3
+      ? 'Packed the 3-3-3 way — light, with a laundry run midway.'
+      : 'A short trip — just enough, no overpacking.';
+    document.getElementById('readyCode').textContent = `${pad2(d)} days · ${wLabel[w]} · ${tLabel[t]}`;
+  }
+  function itemHTML(text){
+    return `<label class="item"><input type="checkbox"><span class="box"><svg><use href="#check"/></svg></span><span class="txt">${text}</span></label>`;
+  }
+  function render(data){
+    document.querySelectorAll('.acc').forEach(acc=>{
+      const cat=acc.dataset.cat, items=data[cat]||[];
+      acc.querySelector('.acc-body').innerHTML=items.map(itemHTML).join('');
+      acc.querySelector('.count').textContent=items.length+(items.length===1?' item':' items');
+    });
+  }
+  function addCustom(){
+    const inp=document.getElementById('customItem'); const v=inp.value.trim(); if(!v) return;
+    const acc=document.querySelector('.acc[data-cat="Extras"]');
+    acc.classList.add('open');
+    acc.querySelector('.acc-body').insertAdjacentHTML('beforeend', itemHTML(v));
+    const c=acc.querySelector('.count'); const n=(+c.textContent.replace(/\D/g,''))+1;
+    c.textContent=n+(n===1?' item':' items');
+    inp.value='';
+  }
+  function startOver(){
+    state.days=3; state.weather='mild'; state.trip='city';
+    document.getElementById('dayNum').textContent='03';
+    document.querySelectorAll('#weatherChips .chip').forEach(c=>c.classList.toggle('sel',c.dataset.key==='mild'));
+    document.querySelectorAll('#tripChips .chip').forEach(c=>c.classList.toggle('sel',c.dataset.key==='city'));
+    buildList(); go('hero');
+  }
+
+  buildList(); // populate defaults
+</script>
+</body>
+</html>
