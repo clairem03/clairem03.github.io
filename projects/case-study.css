@@ -1,8 +1,4 @@
-/* =========================================================
-   case-study.css — shared styles for project case studies
-   Matches the main portfolio: Fraunces / Inter / JetBrains Mono,
-   warm paper + wine accent. Retune everything from :root.
-   ========================================================= */
+
 :root{
   --paper:#FBF9F5;
   --paper-2:#F2EDE3;
@@ -122,9 +118,26 @@ img{display:block;max-width:100%}
   background:var(--paper);padding:8px 14px;border-radius:6px;border:1px solid var(--line);
 }
 
+/* embedded figures */
+.fig{margin-top:18px}
+.fig img{width:100%;border:1px solid var(--line);border-radius:10px;background:#fff;display:block}
+.fig figcaption{font-family:var(--mono);font-size:.68rem;letter-spacing:.04em;color:var(--slate);margin-top:10px}
+
 /* gallery */
-.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:1.1rem;margin-top:6px}
+.gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:1.4rem;margin-top:6px;align-items:start}
+.gallery .fig{margin-top:0}
 @media(max-width:640px){.gallery{grid-template-columns:1fr}}
+
+/* user-role grid */
+.roles-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1rem;margin-top:8px}
+.role-card{border:1px solid var(--line);border-radius:12px;padding:20px 22px;background:#fff}
+.role-card h4{font-family:var(--display);font-weight:500;font-size:1.1rem;margin-bottom:6px;letter-spacing:-.01em}
+.role-card p{font-size:.92rem;color:#403b34;max-width:none}
+@media(max-width:640px){.roles-grid{grid-template-columns:1fr}}
+
+/* inline stack chips */
+.stack{display:flex;flex-wrap:wrap;gap:.5rem;margin-top:18px}
+.stack span{font-family:var(--mono);font-size:.7rem;color:var(--slate);border:1px solid var(--line);border-radius:7px;padding:.4rem .8rem}
 
 /* takeaways */
 .takeaways{list-style:none;display:grid;gap:14px;margin-top:8px;max-width:62ch}
