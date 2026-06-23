@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pack Smarter — Case Study · Claire Miller</title>
+<meta name="description" content="Pack Smarter — a solo UX/UI project: an adaptive packing-list web app that builds a tailored list from three quick questions, with laundry-aware 3-3-3 logic.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="case-study.css">
+</head>
+<body>
+
+<header class="cs-head">
+  <div class="inner">
+    <a class="wordmark" href="../index.html">Claire <span>Miller</span></a>
+    <a class="back" href="../index.html#work">&larr; All work</a>
+  </div>
+</header>
+
+<section class="cs-hero">
+  <div class="eyebrow">
+    <span>Solo project</span><span class="sep"></span>
+    <span>UX/UI · Interaction Design</span><span class="sep"></span>
+    <span>Web app prototype</span>
+  </div>
+  <h1>Pack Smarter</h1>
+  <p class="lead">Pack light. Pack right. Three quick questions about a trip, one tidy list with exactly what you need — and nothing you don't.</p>
+
+  <dl class="meta">
+    <div><dt>My role</dt><dd>Solo — concept, UX/UI, packing logic, prototype</dd></div>
+    <div><dt>Type</dt><dd>Adaptive packing-list web app</dd></div>
+    <div><dt>Flow</dt><dd>3 questions → tailored list</dd></div>
+    <div><dt>Tools</dt><dd>Figma · HTML/CSS/JS</dd></div>
+  </dl>
+</section>
+
+<div class="cover reveal">
+  <img src="../images/packsmarter-hero.jpg" alt="Pack Smarter landing — Pack light. Pack right.">
+</div>
+
+<section class="block split reveal">
+  <div><p class="eyebrow">The problem</p><h2>Generic lists make you overpack</h2></div>
+  <div>
+    <p>Travel makes it easy to slip up — forget the charger, overpack five "just in case" outfits, or land somewhere without the one thing you actually needed. The usual packing lists don't help, because they're the same no matter where you're going: a flat checklist that tells you to bring seven pairs of socks for a three-day trip.</p>
+    <p>Pack Smarter takes the guesswork out. Instead of a one-size-fits-all list, it asks a few quick questions and builds a list around the trip you're actually taking.</p>
+    <div class="roles">
+      <span>Concept</span><span>UX flow</span><span>UI design</span>
+      <span>Packing logic</span><span>Prototype</span>
+    </div>
+  </div>
+</section>
+
+<section class="block reveal">
+  <p class="eyebrow">The idea</p>
+  <h2>Three questions, one tidy list</h2>
+  <p>The whole flow turns on three inputs: how many days you'll be gone, what the weather's like, and the kind of trip it is. A stepper sets the day count, and pill toggles handle the rest — Cold / 50–65° / 65–75° / Warm for weather, and Outdoors / Relaxing / City for trip type. One tap on "Build my list" and you're done answering questions.</p>
+  <figure class="fig">
+    <img src="../images/packsmarter-trip.jpg" alt="Trip details screen — days stepper, weather pills, trip-type pills">
+    <figcaption>The entire input — days, weather, and trip type, in a few taps</figcaption>
+  </figure>
+</section>
+
+<section class="block reveal">
+  <p class="eyebrow">The smart part</p>
+  <h2>A list that thinks like a traveler</h2>
+  <p>This is where the project earns its name. The list isn't a static template — the quantities and items shift with the answers, and they're capped to match how people actually pack. Rather than scaling linearly (nine days does <em>not</em> mean nine pairs of socks), Pack Smarter packs the <strong>3-3-3 way</strong>: light, assuming a laundry run midway. Every list carries a "packing pass" chip summarizing the trip, and a note that says exactly why it's capped.</p>
+  <figure class="fig">
+    <img src="../images/packsmarter-list.jpg" alt="Generated packing list for a 4-day cold outdoors trip, grouped into categories">
+    <figcaption>The generated list — grouped into Clothes, Essentials, Toiletries, Extras, with the 3-3-3 note up top</figcaption>
+  </figure>
+  <p>Weather and trip type reshape the contents, not just the counts. A cold outdoors trip surfaces a thermal base layer, beanie and gloves, and hiking boots; a warm relaxing trip swaps in a swimsuit, sandals, and a sun hat. Same flow, genuinely different list.</p>
+  <div class="gallery">
+    <figure class="fig">
+      <img src="../images/packsmarter-clothes.jpg" alt="Expanded clothes list for a cold outdoors trip with checkable items">
+      <figcaption>Cold · Outdoors · 4 days — thermals, sweaters, warm layers</figcaption>
+    </figure>
+    <figure class="fig">
+      <img src="../images/packsmarter-list-warm.jpg" alt="Generated packing list for a warm relaxing 9-day trip">
+      <figcaption>Warm · Relaxing · 9 days — shorts, swimsuit, loungewear (socks capped at 6, not 9)</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="block reveal">
+  <p class="eyebrow">Using it</p>
+  <h2>From list to packed bag</h2>
+  <p>The list is a working tool, not a printout. Items check off with a strikethrough as the bag fills, each category shows a live count, and there's an "add your own item" field for the things no algorithm could guess. When everything's in, an "All set" screen closes the loop.</p>
+  <figure class="fig phone">
+    <img src="../images/packsmarter-ready.jpg" alt="All set confirmation screen showing trip summary">
+    <figcaption>The finish line — trip summary and a list ready to tick off</figcaption>
+  </figure>
+  <p><a class="back" style="color:var(--accent)" href="pack-smarter-prototype.html">Open the interactive prototype &rarr;</a></p>
+</section>
+
+<section class="block reveal">
+  <p class="eyebrow">Design decisions</p>
+  <h2>Friendly, calm, and fast</h2>
+  <ul class="takeaways">
+    <li>A soft blue-and-navy palette and rounded, friendly type keep the tone light — packing should feel easy, not like filing taxes.</li>
+    <li>Pill-shaped toggles make every choice a single tap, which is what lets the whole input fit on one short screen.</li>
+    <li>The "packing pass" chip and the 3-3-3 note do quiet teaching — they tell you the list is tailored and <em>why</em> it's capped, building trust in the output.</li>
+  </ul>
+</section>
+
+<section class="block reveal">
+  <p class="eyebrow">Reflection</p>
+  <h2>What I took from it</h2>
+  <ul class="takeaways">
+    <li>The hard part wasn't the screens — it was the logic. Designing quantities that mirror real behavior (laundry midway, sensible caps) is what makes the list trustworthy.</li>
+    <li>Owning a project end to end, from concept through the packing rules to the prototype, meant every UI choice had to answer to how the thing actually works.</li>
+    <li>The constraint <em>is</em> the value: the product is useful precisely because it tells you to bring less.</li>
+  </ul>
+</section>
+
+<nav class="pager">
+  <a class="prev" href="farm-to-table.html"><small>Previous project</small>&larr; Farm to Table</a>
+  <a class="next" href="syncro.html"><small>Next project</small>Syncro &rarr;</a>
+</nav>
+
+<footer class="cs-foot">
+  <span>Claire Miller © 2026</span>
+  <span>
+    <a href="mailto:clairemiller064@gmail.com">Email</a> ·
+    <a href="https://linkedin.com/in/clairemiller03">LinkedIn</a> ·
+    <a href="https://github.com/clairem03">GitHub</a>
+  </span>
+</footer>
+
+<script>
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if(!reduce && 'IntersectionObserver' in window){
+    const io = new IntersectionObserver((es)=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('is-visible');io.unobserve(e.target)}}),{threshold:.12});
+    document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+  } else { document.querySelectorAll('.reveal').forEach(el=>el.classList.add('is-visible')); }
+</script>
+</body>
+</html>
