@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Odyssey — Case Study · Claire Miller</title>
-<meta name="description" content="Odyssey — a senior capstone platform for discovering and organizing outdoor trips. Claire Miller led client relations, branding, and UI/UX.">
+<meta name="description" content="Odyssey — a centralized trip-management platform for the ISU Adventure Rec Program. Claire Miller, PM & Client Relations on a six-person senior design team.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -21,18 +21,18 @@
 
 <section class="cs-hero">
   <div class="eyebrow">
-    <span>Senior Capstone</span><span class="sep"></span>
-    <span>UI/UX · Branding · Frontend</span><span class="sep"></span>
+    <span>Senior Design · sddec26-08</span><span class="sep"></span>
+    <span>PM &amp; Client Relations</span><span class="sep"></span>
     <span>2025–2026</span>
   </div>
   <h1>Odyssey</h1>
-  <p class="lead">One place for students to find outdoor trips and for organizers to run them — discovery and logistics, finally on the same platform.</p>
+  <p class="lead">A centralized platform for the ISU Adventure Rec Program — one place to plan, manage, and register for outdoor trips. <em>Trips, organized. Adventures, yours.</em></p>
 
   <dl class="meta">
-    <div><dt>My role</dt><dd>Client relations, brand &amp; UI/UX, frontend</dd></div>
-    <div><dt>Team</dt><dd>6-person capstone team</dd></div>
+    <div><dt>My role</dt><dd>PM &amp; Client Relations</dd></div>
+    <div><dt>Team</dt><dd>6-person senior design team</dd></div>
     <div><dt>Timeline</dt><dd>Two semesters</dd></div>
-    <div><dt>Tools</dt><dd>Figma, HTML/CSS/JS</dd></div>
+    <div><dt>Stack</dt><dd>HTML/CSS/JS · Node/Express · PostgreSQL · Nginx</dd></div>
   </dl>
 </section>
 
@@ -41,22 +41,73 @@
 </div>
 
 <section class="block split reveal">
-  <div><p class="eyebrow">The brief</p><h2>Two audiences, one workflow</h2></div>
+  <div><p class="eyebrow">The problem</p><h2>Trip management run on spreadsheets</h2></div>
   <div>
-    <p>Outdoor trips on campus lived in scattered places — group chats, flyers, sign-up sheets, word of mouth. Students couldn't easily find what was happening, and the people organizing trips had no single place to manage rosters, details, and logistics.</p>
-    <p>Odyssey brings both sides together: a discovery experience for students browsing and signing up for trips, and a management surface where organizers keep every trip's details in one place. I worked across a six-person capstone team and owned the parts where design meets the client.</p>
+    <p>For the ISU Adventure Rec Program, planning and running trips was manual, fragmented across spreadsheets, and time-consuming. Registration lived in one place, approvals were handled by hand, and waiver and payment coordination ran on outdated processes — with no centralized system tying any of it together.</p>
+    <p>Because recreation trips are logistics-heavy and time-sensitive, those gaps had real consequences: participants couldn't see what they'd signed up for or what was left to do, trip leaders worked from incomplete rosters, and program coordinators lost time reconciling information across tools. This was a student-proposed project, and we worked directly with the Adventure Rec Program as our client.</p>
     <div class="roles">
-      <span>Client relations</span><span>Logo design</span><span>Theming</span>
-      <span>Wireframing</span><span>UI/UX</span><span>Frontend</span>
+      <span>Client relations</span><span>Requirements</span><span>Branding</span>
+      <span>UI contributions</span><span>Frontend</span>
     </div>
   </div>
 </section>
 
 <section class="block reveal">
   <p class="eyebrow">What I owned</p>
-  <h2>From client conversations to shipped screens</h2>
-  <p>As the bridge between the client and the build, I ran client communication and turned what I heard into the product's look and feel — then helped build it. That meant defining the brand and visual identity, designing the core flows in Figma, and contributing frontend so the design held up in code, not just in the mockups.</p>
-  <p><strong>Add your specifics here:</strong> a moment a client conversation changed a decision, a constraint you designed around, or the flow you're proudest of. Name the actual screen or interaction.</p>
+  <h2>The bridge between the team and the client</h2>
+  <p>As PM and client relations, I was the line between a six-person engineering team and the Adventure Rec Program. I ran client communication, gathered and translated requirements into something the team could build against, and kept work coordinated across frontend, backend, and database using a hybrid waterfall-plus-agile approach and a Git issue board organized by feature area.</p>
+  <p>Beyond project management, I helped shape Odyssey's branding and contributed to the UI and frontend — so the product reflected what the client actually asked for, not just what was easiest to ship.</p>
+</section>
+
+<section class="block reveal">
+  <p class="eyebrow">Designing for the room</p>
+  <h2>Four user types, four jobs to do</h2>
+  <p>The hardest design constraint wasn't a screen — it was that four very different people needed the same system to behave differently. Role-based access shaped the whole product.</p>
+  <div class="roles-grid">
+    <div class="role-card"><h4>Travelers</h4><p>Students browsing and registering for trips, checking status, and submitting their information through one clear flow.</p></div>
+    <div class="role-card"><h4>Trip Leaders</h4><p>Staff leading specific trips, who need participant info, rosters, and trip status from a single source of truth.</p></div>
+    <div class="role-card"><h4>Organization Leaders</h4><p>Coordinators who create, edit, and cancel trips, assign leaders, and oversee multiple programs.</p></div>
+    <div class="role-card"><h4>Admins</h4><p>System-level managers who verify organizations, assign org leaders, and govern roles and platform integrity.</p></div>
+  </div>
+</section>
+
+<section class="block reveal">
+  <p class="eyebrow">The product</p>
+  <h2>What it looks like</h2>
+  <div class="gallery">
+    <figure class="fig">
+      <img src="../images/odyssey-login.png" alt="Odyssey login screen — sign in with university credentials">
+      <figcaption>Login — role-based entry using university credentials</figcaption>
+    </figure>
+    <figure class="fig">
+      <img src="../images/odyssey-trip-management.png" alt="Organization-leader trip details and management view">
+      <figcaption>Organization Leader — create and manage a trip, view registrations</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section class="block reveal">
+  <p class="eyebrow">System design</p>
+  <h2>A decoupled, full-stack architecture</h2>
+  <p>Odyssey is built as a decoupled system: a static HTML/CSS/JS frontend, a Node.js and Express backend split into routes, controllers, and middleware, and a PostgreSQL database. Nginx sits in front as a reverse proxy, all deployed on an Ubuntu VM hosted by ISU. Authentication uses JWT with bcrypt-hashed passwords, and role-based access control governs who can see and do what.</p>
+  <figure class="fig">
+    <img src="../images/odyssey-architecture.png" alt="High-level architecture: users to web frontend, backend API, auth/trip/user logic, PostgreSQL">
+    <figcaption>High-level architecture — request flow from each user type down to the database</figcaption>
+  </figure>
+  <div class="gallery">
+    <figure class="fig">
+      <img src="../images/odyssey-frontend-design.png" alt="Low-level frontend design: presentation/application layers and persistence layer">
+      <figcaption>Low-level design — frontend presentation &amp; persistence layers</figcaption>
+    </figure>
+    <figure class="fig">
+      <img src="../images/odyssey-backend.png" alt="Low-level backend design: Nginx, Express controllers and routes, PostgreSQL on an ISU VM">
+      <figcaption>Low-level design — Nginx, Express, and PostgreSQL on the ISU VM</figcaption>
+    </figure>
+  </div>
+  <div class="stack">
+    <span>HTML / CSS / JS</span><span>Node.js</span><span>Express</span><span>PostgreSQL</span>
+    <span>Nginx</span><span>JWT</span><span>bcrypt</span><span>RBAC</span><span>Git / GitHub</span>
+  </div>
 </section>
 
 <section class="block reveal">
@@ -65,52 +116,43 @@
 
   <div class="step"><div class="n">01</div><div>
     <h3>Client relations &amp; requirements</h3>
-    <p>Led communication with the client to understand who Odyssey was for and what success looked like. Translated those conversations into a shared set of requirements the whole team could design and build against.</p>
+    <p>Worked directly with the Adventure Rec Program to understand how trips actually ran, then turned those conversations into functional, UI, UX, and security requirements the whole team could design and build against.</p>
   </div></div>
 
   <div class="step"><div class="n">02</div><div>
-    <h3>Brand &amp; identity</h3>
-    <p>Designed the logo and visual theming — the palette, type, and tone that make Odyssey feel built for the outdoors rather than like a generic sign-up form.</p>
-    <div class="shot"><span>Drop in: logo lockup, color/type system, or a moodboard frame</span></div>
+    <h3>Role-based design</h3>
+    <p>Shaped the product around the four user types — what each role could see and do — so access control was a design principle, not an afterthought bolted on at the end.</p>
   </div></div>
 
   <div class="step"><div class="n">03</div><div>
-    <h3>Wireframing the two flows</h3>
-    <p>Mapped the student path (browse → trip detail → sign up) and the organizer path (create → manage details → track roster) as low-fidelity wireframes, getting structure right before any polish.</p>
-    <div class="shot"><span>Drop in: wireframes for the discovery and organizer flows</span></div>
+    <h3>Coordinating the build</h3>
+    <p>Kept frontend, backend, and database work moving in parallel with a hybrid waterfall-plus-agile workflow, a feature-organized Git issue board, and regular team check-ins.</p>
   </div></div>
 
   <div class="step"><div class="n">04</div><div>
-    <h3>UI design in Figma</h3>
-    <p>Brought the wireframes up to high fidelity — trip cards, detail pages, and the management view — applying the brand system consistently across the product.</p>
-    <div class="shot"><span>Drop in: 2–3 hero screens from the Figma file</span></div>
-  </div></div>
-
-  <div class="step"><div class="n">05</div><div>
-    <h3>Frontend build</h3>
-    <p>Contributed to the frontend so the designed screens shipped as real, working pages — closing the gap between the Figma file and what users actually touch.</p>
+    <h3>Testing &amp; walkthroughs</h3>
+    <p>Validated core flows through testing and walkthroughs — confirming the system enforced its hard constraints and that the main paths felt intuitive to real users.</p>
   </div></div>
 </section>
 
 <section class="block reveal">
-  <p class="eyebrow">Selected screens</p>
-  <h2>The product</h2>
-  <div class="gallery">
-    <div class="shot"><span>Student view — trip discovery</span></div>
-    <div class="shot"><span>Trip detail &amp; sign-up</span></div>
-    <div class="shot"><span>Organizer — trip management</span></div>
-    <div class="shot"><span>Brand system / logo</span></div>
-  </div>
+  <p class="eyebrow">Where it stands</p>
+  <h2>Results so far</h2>
+  <ul class="takeaways">
+    <li>The database schema and backend API endpoints for authentication, trip management, and registration are functional, with frontend pages for browsing, registering, and creating trips.</li>
+    <li>Hard constraints hold: the system blocks over-capacity sign-ups and prevents duplicate registrations through database-level constraints.</li>
+    <li>Early user testing showed the core flows are intuitive, validating the role-based structure.</li>
+    <li>Still in progress: full authentication enforcement across all routes, plus waiver and payment workflows — the next phase before deployment.</li>
+  </ul>
 </section>
 
 <section class="block reveal">
   <p class="eyebrow">Reflection</p>
   <h2>What I took from it</h2>
   <ul class="takeaways">
-    <li>Owning client relations alongside design kept the visual decisions grounded in what the client actually needed — not just what looked good.</li>
-    <li>Designing two distinct flows in one product taught me to keep a shared system coherent across very different users.</li>
-    <li>Contributing frontend kept my designs honest: if it couldn't be built well, it wasn't done.</li>
-    <li><em>Add a real outcome — a demo, client feedback, or what you'd change next time.</em></li>
+    <li>Owning client relations kept every decision tied to what the program actually needed — the requirements weren't guesses, they came from the people who run the trips.</li>
+    <li>Designing for four roles at once taught me to treat access control as a product decision, not just an engineering one.</li>
+    <li>Coordinating a full-stack build across six people made clear how much of shipping is keeping a team aligned, not just writing code.</li>
   </ul>
 </section>
 
