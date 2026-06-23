@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Syncro — HCI Prototype</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+<style>
+  :root{
+    --ink:#1C1B2E;
+    --muted:#6F6C8C;
+    --violet:#5A4FE6;
+    --violet-700:#463BC9;
+    --lav:#ECEBFF;
+    --lav-line:#DCD9FF;
+    --sky:#E4EEFF;
+    --sky-line:#CFE2FF;
+    --mint:#12B281;
+    --coral:#FF5A6E;
+    --bg:#FFFFFF;
+    --line:#ECEAF3;
+    --font:'Plus Jakarta Sans',system-ui,sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:var(--font);background:#E9E7F2;color:var(--ink);-webkit-font-smoothing:antialiased}
+
+  /* ---------- top toolbar ---------- */
+  .bar{position:sticky;top:0;z-index:30;display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+    padding:14px 22px;background:#1C1B2E;color:#fff}
+  .bar .brand{font-weight:800;letter-spacing:-.02em;font-size:1.05rem}
+  .bar .brand span{color:#A99CFF}
+  .bar .seg{display:flex;background:rgba(255,255,255,.1);border-radius:10px;padding:3px}
+  .bar .seg button{font-family:var(--font);font-weight:600;font-size:.82rem;color:#cfcae8;
+    background:none;border:none;padding:7px 14px;border-radius:8px;cursor:pointer}
+  .bar .seg button.on{background:#fff;color:#1C1B2E}
+  .bar select{font-family:var(--font);font-weight:600;font-size:.82rem;color:#1C1B2E;
+    border:none;border-radius:8px;padding:8px 10px;cursor:pointer}
+  .bar .hint{font-size:.78rem;color:#9d98c0;margin-left:auto}
+
+  /* ---------- stage ---------- */
+  .stage{display:flex;justify-content:center;padding:40px 20px 80px}
+  .stage.gallery{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));
+    gap:34px 26px;align-items:start;max-width:1380px;margin:0 auto}
+
+  /* ---------- phone ---------- */
+  .phone{width:330px;height:712px;border-radius:46px;background:#0E0D1A;
+    padding:11px;box-shadow:0 30px 70px -28px rgba(20,18,40,.6);flex:0 0 auto;position:relative}
+  .stage:not(.gallery) .phone{display:none}
+  .stage:not(.gallery) .phone.active{display:block}
+  .gallery .phone{margin:0 auto}
+  .gallery .label{text-align:center;font-weight:600;font-size:.8rem;color:#5a5775;margin-top:12px}
+  .stage:not(.gallery) .label{display:none}
+  .screen{position:relative;width:100%;height:100%;background:var(--bg);border-radius:36px;overflow:hidden;
+    display:flex;flex-direction:column}
+
+  /* status bar */
+  .status{position:absolute;top:0;left:0;right:0;height:46px;display:flex;align-items:center;
+    justify-content:space-between;padding:0 26px;z-index:8;pointer-events:none}
+  .status .t{font-weight:700;font-size:.82rem}
+  .status .island{position:absolute;left:50%;top:11px;transform:translateX(-50%);
+    width:78px;height:22px;background:#0E0D1A;border-radius:14px}
+  .status .r{display:flex;gap:5px;align-items:center}
+  .status .r svg{width:16px;height:16px}
+
+  .content{flex:1;overflow-y:auto;padding:58px 20px 24px;display:flex;flex-direction:column}
+  .content::-webkit-scrollbar{width:0}
+
+  /* header */
+  .hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px}
+  .hd .ttl{font-weight:800;font-size:1.05rem;letter-spacing:-.01em}
+  .circ{width:38px;height:38px;border-radius:50%;background:var(--lav);display:flex;align-items:center;
+    justify-content:center;border:none;cursor:pointer;color:var(--ink);flex:0 0 auto}
+  .circ svg{width:18px;height:18px}
+  .icbtn{background:none;border:none;cursor:pointer;color:var(--ink);display:flex;align-items:center;padding:6px}
+  .icbtn svg{width:22px;height:22px}
+
+  h1.big{font-weight:800;font-size:2rem;letter-spacing:-.02em;margin:6px 0 18px}
+  .ic{width:22px;height:22px;flex:0 0 auto}
+
+  /* cards */
+  .card{display:flex;align-items:center;gap:14px;background:var(--lav);border-radius:20px;
+    padding:16px 18px;margin-bottom:14px}
+  .card.sky{background:var(--sky)}
+  .card .ico{width:30px;height:30px;flex:0 0 auto;color:var(--ink)}
+  .card .ico svg{width:30px;height:30px}
+  .card .tx b{display:block;font-weight:700;font-size:1.02rem;line-height:1.2}
+  .card .tx span{font-size:.86rem;color:var(--violet);font-weight:600}
+  .card .star{margin-left:auto;color:var(--ink)}
+  .card .star svg{width:22px;height:22px}
+
+  .lbl{font-weight:700;font-size:1.05rem;margin:8px 0 10px}
+  .sub{color:var(--muted);font-size:.84rem;font-weight:500;margin-top:-4px;margin-bottom:12px}
+
+  /* buttons */
+  .btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;
+    background:var(--violet);color:#fff;border:none;font-family:var(--font);font-weight:700;
+    font-size:1.02rem;padding:17px;border-radius:20px;cursor:pointer;transition:background .15s,transform .15s}
+  .btn:hover{background:var(--violet-700);transform:translateY(-1px)}
+  .btn.ghost{background:var(--lav);color:var(--violet)}
+  .btn.ghost:hover{background:var(--lav-line)}
+  .btn svg{width:20px;height:20px}
+  .push{margin-top:auto}
+
+  /* toggle */
+  .row{display:flex;align-items:center;gap:13px;background:var(--lav);border-radius:18px;
+    padding:14px 16px;margin-bottom:12px}
+  .row .ico{width:24px;height:24px;flex:0 0 auto}
+  .row .ico svg{width:24px;height:24px}
+  .row .nm{font-weight:700;font-size:.98rem}
+  .tog{margin-left:auto;width:50px;height:30px;border-radius:16px;background:#CFCDE0;position:relative;
+    border:none;cursor:pointer;transition:background .18s;flex:0 0 auto}
+  .tog::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;
+    background:#fff;transition:transform .18s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+  .tog.on{background:var(--violet)}
+  .tog.on::after{transform:translateX(20px)}
+
+  /* segmented */
+  .segc{display:flex;gap:10px;margin-bottom:8px}
+  .segc button{flex:1;font-family:var(--font);font-weight:700;font-size:.9rem;padding:14px 8px;
+    border-radius:16px;border:none;cursor:pointer;background:var(--lav);color:var(--ink)}
+  .segc button.on{background:var(--violet);color:#fff}
+
+  /* calendar */
+  .calhd{display:flex;align-items:center;justify-content:center;gap:14px;margin:6px 0 14px}
+  .calhd b{font-weight:800;font-size:1.15rem}
+  .calhd button{background:none;border:none;cursor:pointer;color:var(--ink)}
+  .calhd svg{width:16px;height:16px}
+  .grid7{display:grid;grid-template-columns:repeat(7,1fr);text-align:center}
+  .grid7 .dow{font-weight:700;font-size:.74rem;color:var(--muted);padding-bottom:8px}
+  .grid7 .day{position:relative;font-weight:600;font-size:.86rem;padding:9px 0}
+  .grid7 .day.today{color:#fff}
+  .grid7 .day.today::before{content:"";position:absolute;inset:3px 6px;background:var(--violet);
+    border-radius:50%;z-index:-1}
+  .grid7 .day .dot{position:absolute;left:50%;bottom:2px;transform:translateX(-50%);
+    width:5px;height:5px;border-radius:50%;background:var(--coral)}
+  .grid7 .day.today .dot{background:#fff}
+
+  .pillhead{background:var(--ink);color:#fff;font-weight:700;text-align:center;border-radius:16px;
+    padding:13px;margin:18px 0 12px;font-size:.96rem}
+  .evrow{display:flex;justify-content:space-between;align-items:center;background:var(--lav);
+    border-radius:14px;padding:13px 16px;margin-bottom:10px;cursor:pointer;font-weight:600;font-size:.9rem}
+  .evrow .tm{color:var(--violet);font-weight:700}
+  .toggrp{display:flex;gap:8px}
+  .toggrp button{font-family:var(--font);font-weight:700;font-size:.82rem;padding:8px 14px;border-radius:20px;
+    border:none;cursor:pointer;background:var(--lav);color:var(--ink)}
+  .toggrp button.on{background:var(--violet);color:#fff}
+
+  /* field */
+  .field{background:var(--lav);border-radius:18px;padding:13px 16px;margin-bottom:12px}
+  .field .k{font-size:.72rem;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+  .field .v{font-weight:700;font-size:1.05rem;margin-top:2px}
+  .field .v.ph{color:#9c99b8}
+  .two{display:flex;gap:12px}
+  .two .field{flex:1}
+
+  /* smart departure pill (the signature) */
+  .smart{display:flex;align-items:center;gap:12px;border-radius:18px;padding:14px 16px;margin-bottom:14px;
+    background:linear-gradient(120deg,#2A2752,#413B8F);color:#fff}
+  .smart .ico{width:30px;height:30px;display:flex;align-items:center;justify-content:center;
+    background:rgba(255,255,255,.16);border-radius:10px;flex:0 0 auto}
+  .smart .ico svg{width:18px;height:18px}
+  .smart b{display:block;font-weight:700;font-size:.96rem}
+  .smart .st{display:inline-flex;align-items:center;gap:6px;font-size:.78rem;font-weight:600;margin-top:2px;color:#cfcbf3}
+  .smart .st .pip{width:7px;height:7px;border-radius:50%}
+  .pip.warn{background:var(--coral)}.pip.ok{background:var(--mint)}
+
+  /* map */
+  .maps{position:absolute;inset:0}
+  .maps svg{width:100%;height:100%;display:block}
+  .menu-over{position:absolute;inset:0;background:rgba(20,18,40,.34);z-index:6}
+  .drawer{position:absolute;top:0;left:0;bottom:0;width:74%;background:#fff;z-index:7;
+    border-radius:0 28px 28px 0;padding:58px 22px 26px;display:flex;flex-direction:column}
+  .drawer a{display:block;font-weight:800;font-size:1.24rem;letter-spacing:-.01em;color:var(--ink);
+    text-decoration:none;padding:13px 0;cursor:pointer}
+  .drawer .foot{margin-top:auto;display:flex;flex-direction:column;gap:14px}
+  .drawer .foot a{display:flex;align-items:center;gap:10px;font-size:1.02rem;font-weight:700}
+  .drawer .foot a svg{width:20px;height:20px}
+  .quick{position:absolute;top:60px;right:18px;z-index:4;display:flex;flex-direction:column;gap:16px}
+  .quick .q{display:flex;flex-direction:column;align-items:center;gap:5px;cursor:pointer}
+  .quick .q .cap{background:var(--ink);color:#fff;font-size:.66rem;font-weight:700;padding:3px 9px;border-radius:8px}
+  .quick .q .b{width:52px;height:52px;border-radius:50%;background:var(--sky);display:flex;
+    align-items:center;justify-content:center;box-shadow:0 6px 16px -6px rgba(20,18,40,.4);color:var(--violet)}
+  .quick .q .b svg{width:24px;height:24px}
+  .ham{position:absolute;top:58px;left:18px;z-index:4;width:46px;height:46px;border-radius:14px;background:#fff;
+    border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;
+    box-shadow:0 6px 16px -6px rgba(20,18,40,.35);color:var(--ink)}
+  .ham svg{width:22px;height:22px}
+  .searchbar{position:absolute;left:18px;right:18px;bottom:24px;z-index:4;display:flex;align-items:center;gap:10px;
+    background:#fff;border-radius:20px;padding:15px 20px;box-shadow:0 10px 26px -10px rgba(20,18,40,.4);
+    cursor:pointer;font-weight:700;color:var(--muted)}
+  .searchbar svg{width:20px;height:20px}
+  .searchbar .go{margin-left:auto;width:34px;height:34px;border-radius:50%;background:var(--violet);
+    display:flex;align-items:center;justify-content:center;color:#fff}
+  .searchbar .go svg{width:18px;height:18px}
+
+  /* lock screen */
+  .lock{position:absolute;inset:0;background:linear-gradient(160deg,#EAF1FF 0%,#DCE6FF 45%,#F3F0FF 100%)}
+  .lock .clk{position:absolute;top:96px;left:0;right:0;text-align:center}
+  .lock .clk .d{font-weight:700;font-size:1rem;color:#3a3960}
+  .lock .clk .h{font-weight:800;font-size:4.6rem;letter-spacing:-.04em;color:var(--ink);line-height:1}
+  .lock .ncenter{position:absolute;left:20px;bottom:130px;font-weight:700;font-size:.82rem;color:#46446a}
+  .notif{position:absolute;left:16px;right:16px;bottom:48px;display:flex;gap:14px;align-items:flex-start;
+    background:rgba(255,255,255,.62);backdrop-filter:blur(14px);border-radius:22px;padding:16px;cursor:pointer;
+    box-shadow:0 14px 40px -16px rgba(20,18,40,.4)}
+  .notif .logo{width:50px;height:50px;border-radius:14px;background:linear-gradient(135deg,#5A4FE6,#7C5CFF);
+    display:flex;align-items:center;justify-content:center;color:#fff;flex:0 0 auto}
+  .notif .logo svg{width:26px;height:26px}
+  .notif .nt b{display:block;font-weight:800;font-size:1.05rem}
+  .notif .nt p{font-weight:600;font-size:.84rem;color:#3a3960;line-height:1.35;margin-top:1px}
+  .notif .nt .warn{color:var(--coral);font-weight:700}
+  .notif .nt .ok{color:var(--mint);font-weight:700}
+  .notif .tm{margin-left:auto;font-size:.72rem;color:#6f6c8c;font-weight:600;flex:0 0 auto}
+  .hintrow{text-align:center;font-size:.74rem;color:#6f6c8c;font-weight:600;position:absolute;bottom:20px;left:0;right:0}
+
+  /* notes box */
+  .notes{background:var(--lav);border-radius:18px;padding:14px 16px;font-size:.9rem;color:#3f3d5c;
+    font-weight:500;line-height:1.5;margin-bottom:14px;min-height:96px}
+  .notes.empty{color:#9c99b8}
+
+  /* guides */
+  .guide{display:flex;gap:14px;align-items:center;background:var(--sky);border-radius:18px;padding:14px;margin-bottom:12px}
+  .guide .thumb{width:54px;height:54px;border-radius:14px;flex:0 0 auto;display:flex;align-items:center;justify-content:center;color:#fff}
+  .guide .thumb svg{width:26px;height:26px}
+  .guide b{display:block;font-weight:700;font-size:1rem}
+  .guide span{font-size:.82rem;color:var(--muted);font-weight:600}
+
+  /* account */
+  .avatar{width:74px;height:74px;border-radius:50%;background:linear-gradient(135deg,#5A4FE6,#7C5CFF);
+    display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:1.6rem;margin:8px auto 10px}
+  .acct-name{text-align:center;font-weight:800;font-size:1.2rem}
+  .acct-mail{text-align:center;color:var(--muted);font-weight:600;font-size:.86rem;margin-bottom:18px}
+  .listrow{display:flex;align-items:center;gap:12px;padding:15px 4px;border-bottom:1px solid var(--line);font-weight:600}
+  .listrow svg{width:20px;height:20px;color:var(--violet)}
+  .listrow .chev{margin-left:auto;color:#bbb8cf}
+
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+  :focus-visible{outline:2px solid var(--violet);outline-offset:2px}
+</style>
+</head>
+<body>
+
+<!-- icon sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-chev-l" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></symbol>
+  <symbol id="i-chev-r" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4-4"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 17l-5.2 2.6 1-5.8L3.5 9.7l5.9-.9z"/></symbol>
+  <symbol id="i-star-f" viewBox="0 0 24 24" fill="currentColor"><path d="M12 3.5l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 17l-5.2 2.6 1-5.8L3.5 9.7l5.9-.9z"/></symbol>
+  <symbol id="i-cal" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3.5" y="5" width="17" height="16" rx="3"/><path d="M3.5 9.5h17M8 3v4M16 3v4"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a7 7 0 0 0-7 7c0 5 7 13 7 13s7-8 7-13a7 7 0 0 0-7-7zm0 9.4A2.4 2.4 0 1 1 12 6.6a2.4 2.4 0 0 1 0 4.8z"/></symbol>
+  <symbol id="i-bus" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="4" y="3.5" width="16" height="13" rx="2.5"/><path d="M4 11h16M8 16.5v2M16 16.5v2"/><circle cx="8" cy="13.5" r="1" fill="currentColor"/><circle cx="16" cy="13.5" r="1" fill="currentColor"/></symbol>
+  <symbol id="i-car" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 14l1.6-5A2 2 0 0 1 7.5 7.5h9A2 2 0 0 1 18.4 9L20 14M4 14h16v4.5h-2.5V18h-11v.5H4z"/><circle cx="7.5" cy="14" r="1.3" fill="currentColor"/><circle cx="16.5" cy="14" r="1.3" fill="currentColor"/></symbol>
+  <symbol id="i-train" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="5" y="3.5" width="14" height="13" rx="3"/><path d="M5 11h14M8 20l-2 2M16 20l2 2"/><circle cx="9" cy="13.5" r="1" fill="currentColor"/><circle cx="15" cy="13.5" r="1" fill="currentColor"/></symbol>
+  <symbol id="i-walk" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13" cy="4" r="1.6"/><path d="M10 22l2-6-2-2 1-5 3 2 2 1M12 14l-1 3"/></symbol>
+  <symbol id="i-bike" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><circle cx="6" cy="17" r="3.2"/><circle cx="18" cy="17" r="3.2"/><path d="M6 17l4-7h5l-3 7M9 7h3"/></symbol>
+  <symbol id="i-park" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 16.5V7.5h3.2a2.6 2.6 0 0 1 0 5.2H9.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-home" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 11l8-7 8 7M6 9.5V20h12V9.5"/></symbol>
+  <symbol id="i-work" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><rect x="3.5" y="7.5" width="17" height="12" rx="2.5"/><path d="M8.5 7.5V5.5a2 2 0 0 1 2-2h3a2 2 0 0 1 2 2v2"/></symbol>
+  <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c2.8 3 2.8 15 0 18M12 3c-2.8 3-2.8 15 0 18"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+  <symbol id="i-bell" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9a6 6 0 0 1 12 0c0 5 2 6 2 6H4s2-1 2-6M10 19a2 2 0 0 0 4 0"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c1.2-3.6 4-5 7-5s5.8 1.4 7 5"/></symbol>
+  <symbol id="i-help" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 0 1 4 1.8c0 1.6-2 1.8-2 3.2"/><circle cx="11.6" cy="17.5" r=".4" fill="currentColor" stroke="currentColor"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7.5V12l3 2"/></symbol>
+  <symbol id="i-route" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="18" r="2.4"/><circle cx="18" cy="6" r="2.4"/><path d="M8 17.5c6-1 8-3 8.5-9"/></symbol>
+  <symbol id="i-yoga" viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="4.5" r="2"/><path d="M12 7c-1 0-1.6 1-1.6 2.2 0 1 .6 1.8 1.6 2.2 1-.4 1.6-1.2 1.6-2.2C13.6 8 13 7 12 7zM5 13l4 .8c.6 1.6 1.6 2.7 3 2.7s2.4-1.1 3-2.7l4-.8-.4-1.7-3.7.8c-.5 1-1.6 1.7-2.9 1.7s-2.4-.7-2.9-1.7l-3.7-.8z"/></symbol>
+  <symbol id="i-book" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5zM20 18v3H6.5A2.5 2.5 0 0 1 4 18.5"/></symbol>
+  <symbol id="i-map" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"><path d="M9 4L3.5 6v14L9 18l6 2 5.5-2V4L15 6 9 4zM9 4v14M15 6v14"/></symbol>
+  <symbol id="i-batt" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="8" width="17" height="9" rx="2.5"/><rect x="4" y="10" width="11" height="5" rx="1" fill="currentColor" stroke="none"/><path d="M21 11v3" stroke-linecap="round"/></symbol>
+  <symbol id="i-signal" viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="13" width="3" height="6" rx="1"/><rect x="8" y="10" width="3" height="9" rx="1"/><rect x="13" y="7" width="3" height="12" rx="1"/><rect x="18" y="4" width="3" height="15" rx="1"/></symbol>
+</svg>
+
+<div class="bar">
+  <div class="brand">Syncro<span>.</span></div>
+  <div class="seg">
+    <button id="m-flow" class="on" onclick="setMode('flow')">Flow</button>
+    <button id="m-gal" onclick="setMode('gallery')">All screens</button>
+  </div>
+  <select id="jump" onchange="go(this.value)" aria-label="Jump to screen">
+    <option value="notification">Lock screen alert</option>
+    <option value="map">Map / Home</option>
+    <option value="menu">Menu</option>
+    <option value="calendar">Calendar</option>
+    <option value="eventDetail">Event detail</option>
+    <option value="newEvent">New event</option>
+    <option value="favorites">Favorited events</option>
+    <option value="savedLocations">Saved locations</option>
+    <option value="travelPrefs">Travel preferences</option>
+    <option value="translation">Translation</option>
+    <option value="guides">My guides</option>
+    <option value="account">Account</option>
+    <option value="help">Help</option>
+  </select>
+  <div class="hint">Flow mode → tap buttons to move between screens</div>
+</div>
+
+<div class="stage" id="stage">
+
+  <!-- ============ NOTIFICATION (lock screen / thesis) ============ -->
+  <div class="phone active" data-id="notification">
+    <div class="screen">
+      <div class="lock">
+        <div class="status"><span class="t" style="color:#1C1B2E">9:02</span><div class="r" style="color:#1C1B2E"><svg><use href="#i-signal"/></svg><svg><use href="#i-batt"/></svg></div></div>
+        <div class="clk"><div class="d">Thursday, March 14</div><div class="h">9:02</div></div>
+        <div class="ncenter">Notification Center</div>
+        <div class="notif" data-go="eventDetail">
+          <div class="logo"><svg><use href="#i-route"/></svg></div>
+          <div class="nt">
+            <b>Pilates</b>
+            <p>Leave by <b style="display:inline">9:18 AM</b> to arrive by 10:00.<br><span class="warn">Heavy traffic on your route</span></p>
+          </div>
+          <div class="tm">now</div>
+        </div>
+        <div class="hintrow">Tap the alert to open the event ↑</div>
+      </div>
+    </div>
+    <div class="label">Lock screen alert</div>
+  </div>
+
+  <!-- ============ MAP / HOME ============ -->
+  <div class="phone" data-id="map">
+    <div class="screen">
+      <div class="status"><span class="t">9:41</span><div class="island"></div><div class="r"><svg><use href="#i-signal"/></svg><svg><use href="#i-batt"/></svg></div></div>
+      <div class="maps">
+        <svg viewBox="0 0 330 712" preserveAspectRatio="xMidYMid slice">
+          <rect width="330" height="712" fill="#EEF1F4"/>
+          <path d="M0 0H120C90 120 60 150 0 200Z" fill="#BFE0F2"/>
+          <path d="M0 560H110C120 640 90 690 0 712Z" fill="#BFE0F2"/>
+          <rect x="150" y="250" width="120" height="120" rx="8" fill="#C9E9CC"/>
+          <g stroke="#fff" stroke-width="9">
+            <path d="M-10 130H340M-10 250H340M-10 370H340M-10 490H340M-10 610H340"/>
+            <path d="M60 -10V722M140 -10V722M220 -10V722M290 -10V722"/>
+          </g>
+          <g stroke="#E2E4E8" stroke-width="1">
+            <path d="M-10 130H340M-10 250H340M-10 370H340M-10 490H340M-10 610H340"/>
+            <path d="M60 -10V722M140 -10V722M220 -10V722M290 -10V722"/>
+          </g>
+          <path d="M60 700C60 520 140 470 140 370C140 270 220 240 220 130" fill="none" stroke="#5A4FE6" stroke-width="6" stroke-linecap="round" opacity=".9"/>
+          <circle cx="220" cy="130" r="9" fill="#5A4FE6" stroke="#fff" stroke-width="3"/>
+        </svg>
+      </div>
+      <button class="ham" data-go="menu" aria-label="Menu"><svg><use href="#i-menu"/></svg></button>
+      <div class="quick">
+        <div class="q" data-go="map"><span class="cap">Home</span><span class="b"><svg><use href="#i-home"/></svg></span></div>
+        <div class="q" data-go="map"><span class="cap">Work</span><span class="b"><svg><use href="#i-work"/></svg></span></div>
+        <div class="q" data-go="calendar"><span class="cap">Calendar</span><span class="b"><svg><use href="#i-cal"/></svg></span></div>
+      </div>
+      <div class="searchbar" data-go="savedLocations"><svg><use href="#i-search"/></svg> Search map<span class="go"><svg><use href="#i-chev-r"/></svg></span></div>
+    </div>
+    <div class="label">Map / Home</div>
+  </div>
+
+  <!-- ============ MENU ============ -->
+  <div class="phone" data-id="menu">
+    <div class="screen">
+      <div class="maps"><svg viewBox="0 0 330 712" preserveAspectRatio="xMidYMid slice"><rect width="330" height="712" fill="#EEF1F4"/><rect x="150" y="250" width="160" height="160" rx="8" fill="#C9E9CC"/><g stroke="#fff" stroke-width="9"><path d="M-10 200H340M-10 360H340M-10 520H340"/><path d="M200 -10V722M280 -10V722"/></g></svg></div>
+      <div class="menu-over" data-go="map"></div>
+      <div class="drawer">
+        <div class="status"><span class="t">9:41</span></div>
+        <div style="display:flex;justify-content:flex-end;margin-bottom:14px"><button class="circ" data-go="map" aria-label="Close"><svg><use href="#i-chev-l"/></svg></button></div>
+        <a data-go="translation">Translation</a>
+        <a data-go="savedLocations">Saved Locations</a>
+        <a data-go="guides">My Guides</a>
+        <a data-go="travelPrefs">Travel Preferences</a>
+        <div class="foot">
+          <a data-go="help"><svg><use href="#i-help"/></svg> Help</a>
+          <a data-go="account"><svg><use href="#i-user"/></svg> Account</a>
+        </div>
+      </div>
+    </div>
+    <div class="label">Menu</div>
+  </div>
+
+  <!-- ============ CALENDAR ============ -->
+  <div class="phone" data-id="calendar">
+    <div class="screen">
+      <div class="status"><span class="t">9:41</span><div class="island"></div><div class="r"><svg><use href="#i-signal"/></svg><svg><use href="#i-batt"/></svg></div></div>
+      <div class="content">
+        <div class="hd">
+          <button class="circ" data-go="map" aria-label="Back"><svg><use href="#i-chev-l"/></svg></button>
+          <div class="toggrp"><button class="on">Monthly</button><button>Weekly</button></div>
+          <div style="display:flex;gap:4px">
+            <button class="icbtn" aria-label="Search"><svg><use href="#i-search"/></svg></button>
+            <button class="icbtn" data-go="newEvent" aria-label="New event"><svg><use href="#i-plus"/></svg></button>
+          </div>
+        </div>
+        <div class="calhd"><button><svg><use href="#i-chev-l"/></svg></button><b>March</b><button><svg><use href="#i-chev-r"/></svg></button></div>
+        <div class="grid7">
+          <div class="dow">Su</div><div class="dow">Mo</div><div class="dow">Tu</div><div class="dow">We</div><div class="dow">Th</div><div class="dow">Fr</div><div class="dow">Sa</div>
+          <div class="day"></div><div class="day"></div><div class="day"></div><div class="day"></div><div class="day"></div><div class="day">1</div><div class="day">2</div>
+          <div class="day">3</div><div class="day">4</div><div class="day">5</div><div class="day">6</div><div class="day">7<span class="dot"></span></div><div class="day">8</div><div class="day">9</div>
+          <div class="day">10</div><div class="day">11<span class="dot"></span></div><div class="day today">12</div><div class="day">13<span class="dot"></span></div><div class="day">14<span class="dot"></span></div><div class="day">15</div><div class="day">16<span class="dot"></span></div>
+          <div class="day">17<span class="dot"></span></div><div class="day">18</div><div class="day">19</div><div class="day">20</div><div class="day">21</div><div class="day">22</div><div class="day">23</div>
+          <div class="day">24</div><div class="day">25</div><div class="day">26<span class="dot"></span></div><div class="day">27</div><div class="day">28<span class="dot"></span></div><div class="day">29</div><div class="day">30</div>
+          <div class="day">31</div>
+        </div>
+        <div class="pillhead">Upcoming events</div>
+        <div class="evrow" data-go="eventDetail"><span>Mar 13 · Jane's Birthday</span><span class="tm">7:00 PM</span></div>
+        <div class="evrow" data-go="eventDetail"><span>Mar 14 · Pilates</span><span class="tm">10:00 AM</span></div>
+        <div class="evrow" data-go="eventDetail"><span>Mar 16 · Dentist Appt.</span><span class="tm">11:00 AM</span></div>
+        <button class="btn ghost push" data-go="favorites"><svg><use href="#i-star"/></svg> Favorited events</button>
+      </div>
+    </div>
+    <div class="label">Calendar</div>
+  </div>
+
+  <!-- ============ EVENT DETAIL ============ -->
+  <div class="phone" data-id="eventDetail">
+    <div class="screen">
+      <div class="status"><span class="t">9:41</span><div class="island"></div><div class="r"><svg><use href="#i-signal"/></svg><svg><use href="#i-batt"/></svg></div></div>
+      <div class="content">
+        <div class="hd">
+          <button class="circ" data-go="calendar" aria-label="Back"><svg><use href="#i-chev-l"/></svg></button>
+          <button class="icbtn" id="favstar" onclick="this.classList.toggle('f');this.querySelector('use').setAttribute('href', this.classList.contains('f')?'#i-star-f':'#i-star')" aria-label="Favorite"><svg style="width:24px;height:24px"><use href="#i-star"/></svg></button>
+        </div>
+        <h1 class="big">Pilates</h1>
+        <div class="smart">
+          <div class="ico"><svg><use href="#i-route"/></svg></div>
+          <div><b>Leave by 9:18 AM</b><span class="st"><span class="pip warn"></span>Heavy traffic · 42 min away</span></div>
+        </div>
+        <div class="card"><span class="ico"><svg><use href="#i-cal"/></svg></span><div class="tx"><b>Thursday, March 14</b><span>10:00 – 11:30 AM</span></div></div>
+        <div class="card sky"><span class="ico"><svg><use href="#i-pin"/></svg></span><div class="tx"><b>Wellness Studio South</b><span>1234 Sweet Ave NW, Chicago</span></div></div>
+        <div class="segc" style="margin-bottom:12px">
+          <button class="on" id="md-transit" onclick="setMode2('transit')">Transit</button>
+          <button id="md-drive" onclick="setMode2('drive')">Driving</button>
+        </div>
+        <div class="card" id="modeCard"><span class="ico"><svg><use href="#i-bus"/></svg></span><div class="tx"><b>Cherry Route</b><span>Trader Joe's Stop</span></div></div>
+        <div class="lbl">Notes</div>
+        <div class="notes">Hot pilates with Maya. Pack lunch and a change of clothes for after.</div>
+        <div class="lbl">Reminder</div>
+        <div class="card" style="background:var(--lav)"><span class="ico"><svg><use href="#i-clock"/></svg></span><div class="tx"><b>30 minutes before</b></div></div>
+        <button class="btn push" data-go="map"><svg><use href="#i-route"/></svg> Get directions</button>
+      </div>
+    </div>
+    <div class="label">Event detail</div>
+  </div>
+
+  <!-- ============ NEW EVENT ============ -->
+  <div class="phone" data-id="newEvent">
+    <div class="screen">
+      <div class="status"><span class="t">9:41</span><div class="island"></div><div class="r"><svg><use href="#i-signal"/></svg><svg><use href="#i-batt"/></svg></div></div>
+      <div class="content">
+        <div class="hd">
+          <button class="circ" data-go="calendar" aria-label="Back"><svg><use href="#i-chev-l"/></svg></button>
+          <div class="ttl">New event</div>
+          <span style="width:38px"></span>
+        </div>
+        <div class="field"><div class="k">Event title</div><div class="v">Pilates</div></div>
+        <div class="two"><div class="field"><div class="k">Date</div><div class="v">Mar 14</div></div><div class="field"><div class="k">Time</div><div class="v">10:00 AM</div></div></div>
+        <div class="field"><div class="k">Location</div><div class="v ph">Search location…</div></div>
+        <div class="field"><div class="k">Transportation</div><div class="v ph">Parking, transit, etc.</div></div>
+        <div class="row"><span class="ico"><svg><use href="#i-clock"/></svg></span><span class="nm">Reminder · 30 min before</span><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+        <div class="row"><span class="ico"><svg><use href="#i-cal"/></svg></span><span class="nm">Repeat · Does not repeat</span><button class="tog" onclick="this.classList.toggle('on')"></button></div>
+        <div class="lbl">Notes</div>
+        <div class="notes empty">Add notes…</div>
+        <button class="btn push" data-go="calendar">Save event</button>
+      </div>
+    </div>
+    <div class="label">New event</div>
+  </div>
+
+  <!-- ============ FAVORITES ============ -->
+  <div class="phone" data-id="favorites">
+    <div class="screen">
+      <div class="status"><span class="t">9:41</span><div class="island"></div><div class="r"><svg><use href="#i-signal"/></svg><svg><use href="#i-batt"/></svg></div></div>
+      <div class="content">
+        <div class="hd"><button class="circ" data-go="calendar" aria-label="Back"><svg><use href="#i-chev-l"/></svg></button><span class="icbtn" style="color:var(--violet)"><svg style="width:24px;height:24px"><use href="#i-star-f"/></svg></span></div>
+        <h1 class="big">Favorited events</h1>
+        <div class="card" data-go="eventDetail"><span class="ico"><svg><use href="#i-cal"/></svg></span><div class="tx"><b>Pilates</b><span>Every Tue &amp; Thu · 10:00 AM</span></div><span class="star"><svg><use href="#i-star-f"/></svg></span></div>
+        <div class="card" data-go="eventDetail"><span class="ico"><svg><use href="#i-book"/></svg></span><div class="tx"><b>Book Club</b><span>First Sun monthly · 4:00 PM</span></div><span class="star"><svg><use href="#i-star-f"/></svg></span></div>
+        <div class="card" data-go="eventDetail"><span class="ico"><svg><use href="#i-cal"/></svg></span><div class="tx"><b>Family Dinner</b><span>March 27 · 7:00 PM</span></div><span class="star"><svg><use href="#i-star-f"/></svg></span></div>
+        <div class="card" data-go="eventDetail"><span class="ico"><svg><use href="#i-yoga"/></svg></span><div class="tx"><b>Hot Yoga</b><span>Every Sun · 6:00 PM</span></div><span class="star"><svg><use href="#i-star-f"/></svg></span></div>
+        <button class="btn push" data-go="calendar">Back to calendar</button>
+      </div>
+    </div>
+    <div class="label">Favorited events</div>
+  </div>
+
+  <!-- ============ SAVED LOCATIONS ============ -->
+  <div class="phone" data-id="savedLocations">
+    <div class="screen">
+      <div class="status"><span class="t">9:41</span><div class="island"></div><div class="r"><svg><use href="#i-signal"/></svg><svg><use href="#i-batt"/></svg></div></div>
+      <div class="content">
+        <div class="hd"><button class="circ" data-go="menu" aria-label="Back"><svg><use href="#i-chev-l"/></svg></button><div class="ttl">Saved locations</div><span style="width:38px"></span></div>
+        <div class="card sky"><span class="ico"><svg><use href="#i-home"/></svg></span><div class="tx"><b>Home</b><span style="color:var(--muted)">2143 Maple Street, Chicago</span></div></div>
+        <div class="card sky"><span class="ico"><svg><use href="#i-work"/></svg></span><div class="tx"><b>Work</b><span style="color:var(--muted)">43 East Street, Chicago</span></div></div>
+        <div class="card"><span class="ico"><svg><use href="#i-yoga"/></svg></span><div class="tx"><b>Wellness Studio South</b><span style="color:var(--muted)">1234 Street Ave NW, Chicago</span></div></div>
+        <button class="btn push" data-go="map"><svg><use href="#i-plus"/></svg> Add location</button>
+      </div>
+    </div>
+    <div class="label">Saved locations</div>
+  </div>
+
+  <!-- ============ TRAVEL PREFERENCES ============ -->
+  <div class="phone" data-id="travelPrefs">
+    <div class="screen">
+      <div class="status"><span class="t">9:41</span><div class="island"></div><div class="r"><svg><use href="#i-signal"/></svg><svg><use href="#i-batt"/></svg></div></div>
+      <div class="content">
+        <div class="hd"><button class="circ" data-go="menu" aria-label="Back"><svg><use href="#i-chev-l"/></svg></button><div class="ttl">Travel preferences</div><span style="width:38px"></span></div>
+        <div class="lbl">Default modes</div><div class="sub">We'll prioritize these when planning routes</div>
+        <div class="row"><span class="ico"><svg><use href="#i-walk"/></svg></span><span class="nm">Walking</span><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+        <div class="row"><span class="ico"><svg><use href="#i-bus"/></svg></span><span class="nm">Bus</span><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+        <div class="row"><span class="ico"><svg><use href="#i-train"/></svg></span><span class="nm">Train / Subway</span><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+        <div class="row"><span class="ico"><svg><use href="#i-car"/></svg></span><span class="nm">Driving</span><button class="tog" onclick="this.classList.toggle('on')"></button></div>
+        <div class="row"><span class="ico"><svg><use href="#i-bike"/></svg></span><span class="nm">Cycling</span><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+        <div class="lbl" style="margin-top:8px">Routing priority</div><div class="sub">Choose what matters most</div>
+        <div class="segc">
+          <button class="on" onclick="pick(this)">Fastest</button>
+          <button onclick="pick(this)">Cheapest</button>
+          <button onclick="pick(this)">Fewest stops</button>
+        </div>
+        <button class="btn push" data-go="map">Save preferences</button>
+      </div>
+    </div>
+    <div class="label">Travel preferences</div>
+  </div>
+
+  <!-- ============ TRANSLATION ============ -->
+  <div class="phone" data-id="translation">
+    <div class="screen">
+      <div class="status"><span class="t">9:41</span><div class="island"></div><div class="r"><svg><use href="#i-signal"/></svg><svg><use href="#i-batt"/></svg></div></div>
+      <div class="content">
+        <div class="hd"><button class="circ" data-go="menu" aria-label="Back"><svg><use href="#i-chev-l"/></svg></button><div class="ttl">Translation</div><span style="width:38px"></span></div>
+        <div class="lbl">Map translation</div>
+        <div class="row"><span class="ico"><svg><use href="#i-globe"/></svg></span><span class="nm">Translate map</span><button class="tog on" onclick="this.classList.toggle('on')"></button></div>
+        <div class="field" style="cursor:pointer"><div class="v ph">Translate to…</div></div>
+        <div class="lbl" style="margin-top:10px">Translation options</div>
+        <div class="card" style="cursor:pointer"><span class="ico"><svg><use href="#i-pin"/></svg></span><div class="tx"><b>Upload image</b></div></div>
+        <div class="card sky" style="cursor:pointer"><span class="ico"><svg><use href="#i-globe"/></svg></span><div class="tx"><b>Type characters</b></div></div>
+        <div class="field" style="cursor:pointer"><div class="v ph">Translate to…</div></div>
+        <button class="btn push" data-go="menu">Done</button>
+      </div>
+    </div>
+    <div class="label">Translation</div>
+  </div>
+
+  <!-- ============ MY GUIDES ============ -->
+  <div class="phone" data-id="guides">
+    <div class="screen">
+      <div class="status"><span class="t">9:41</span><div class="island"></div><div class="r"><svg><use href="#i-signal"/></svg><svg><use href="#i-batt"/></svg></div></div>
+      <div class="content">
+        <div class="hd"><button class="circ" data-go="menu" aria-label="Back"><svg><use href="#i-chev-l"/></svg></button><div class="ttl">My guides</div><span style="width:38px"></span></div>
+        <div class="guide"><span class="thumb" style="background:linear-gradient(135deg,#5A4FE6,#7C5CFF)"><svg><use href="#i-map"/></svg></span><div><b>Chicago Weekend</b><span>12 places · updated today</span></div></div>
+        <div class="guide"><span class="thumb" style="background:linear-gradient(135deg,#12B281,#2FD0A0)"><svg><use href="#i-pin"/></svg></span><div><b>Best Coffee Downtown</b><span>8 places</span></div></div>
+        <div class="guide"><span class="thumb" style="background:linear-gradient(135deg,#FF7A59,#FF5A6E)"><svg><use href="#i-yoga"/></svg></span><div><b>Wellness &amp; Studios</b><span>5 places</span></div></div>
+        <button class="btn ghost push" data-go="menu"><svg><use href="#i-plus"/></svg> New guide</button>
+      </div>
+    </div>
+    <div class="label">My guides</div>
+  </div>
+
+  <!-- ============ ACCOUNT ============ -->
+  <div class="phone" data-id="account">
+    <div class="screen">
+      <div class="status"><span class="t">9:41</span><div class="island"></div><div class="r"><svg><use href="#i-signal"/></svg><svg><use href="#i-batt"/></svg></div></div>
+      <div class="content">
+        <div class="hd"><button class="circ" data-go="menu" aria-label="Back"><svg><use href="#i-chev-l"/></svg></button><div class="ttl">Account</div><span style="width:38px"></span></div>
+        <div class="avatar">CM</div>
+        <div class="acct-name">Claire Miller</div>
+        <div class="acct-mail">clairemiller064@gmail.com</div>
+        <div class="listrow"><svg><use href="#i-bell"/></svg> Notifications<span class="chev"><svg style="width:18px;height:18px"><use href="#i-chev-r"/></svg></span></div>
+        <div class="listrow" data-go="travelPrefs"><svg><use href="#i-route"/></svg> Travel preferences<span class="chev"><svg style="width:18px;height:18px"><use href="#i-chev-r"/></svg></span></div>
+        <div class="listrow" data-go="savedLocations"><svg><use href="#i-pin"/></svg> Saved locations<span class="chev"><svg style="width:18px;height:18px"><use href="#i-chev-r"/></svg></span></div>
+        <div class="listrow" data-go="help"><svg><use href="#i-help"/></svg> Help &amp; support<span class="chev"><svg style="width:18px;height:18px"><use href="#i-chev-r"/></svg></span></div>
+        <button class="btn ghost push" data-go="map">Sign out</button>
+      </div>
+    </div>
+    <div class="label">Account</div>
+  </div>
+
+  <!-- ============ HELP ============ -->
+  <div class="phone" data-id="help">
+    <div class="screen">
+      <div class="status"><span class="t">9:41</span><div class="island"></div><div class="r"><svg><use href="#i-signal"/></svg><svg><use href="#i-batt"/></svg></div></div>
+      <div class="content">
+        <div class="hd"><button class="circ" data-go="menu" aria-label="Back"><svg><use href="#i-chev-l"/></svg></button><div class="ttl">Help</div><span style="width:38px"></span></div>
+        <div class="field" style="display:flex;align-items:center;gap:10px;color:var(--muted)"><svg class="ic"><use href="#i-search"/></svg><span style="font-weight:600">Search help…</span></div>
+        <div class="lbl">Common questions</div>
+        <div class="card"><div class="tx"><b>How do departure alerts work?</b><span style="color:var(--muted)">Set a reminder and we watch traffic</span></div></div>
+        <div class="card"><div class="tx"><b>Change my default travel modes</b><span style="color:var(--muted)">Travel preferences</span></div></div>
+        <div class="card"><div class="tx"><b>Translate signs and menus</b><span style="color:var(--muted)">Translation tools</span></div></div>
+        <button class="btn push" data-go="menu">Contact support</button>
+      </div>
+    </div>
+    <div class="label">Help</div>
+  </div>
+
+</div>
+
+<script>
+  const stage = document.getElementById('stage');
+  const phones = [...document.querySelectorAll('.phone')];
+  const jump = document.getElementById('jump');
+
+  function go(id){
+    const target = phones.find(p => p.dataset.id === id);
+    if(!target) return;
+    if(stage.classList.contains('gallery')) setMode('flow');
+    phones.forEach(p => p.classList.toggle('active', p === target));
+    jump.value = id;
+    const c = target.querySelector('.content'); if(c) c.scrollTop = 0;
+    window.scrollTo({top:0, behavior:'smooth'});
+  }
+  function setMode(mode){
+    const gal = mode === 'gallery';
+    stage.classList.toggle('gallery', gal);
+    document.getElementById('m-gal').classList.toggle('on', gal);
+    document.getElementById('m-flow').classList.toggle('on', !gal);
+    if(gal) phones.forEach(p => p.classList.add('active'));
+    else { const cur = jump.value; phones.forEach(p => p.classList.toggle('active', p.dataset.id === cur)); }
+  }
+  function setMode2(m){
+    const card = document.getElementById('modeCard');
+    document.getElementById('md-transit').classList.toggle('on', m==='transit');
+    document.getElementById('md-drive').classList.toggle('on', m==='drive');
+    card.innerHTML = m==='transit'
+      ? '<span class="ico"><svg><use href="#i-bus"/></svg></span><div class="tx"><b>Cherry Route</b><span>Trader Joe\'s Stop</span></div>'
+      : '<span class="ico"><svg><use href="#i-park"/></svg></span><div class="tx"><b>Lot F</b><span>1974 4th Street NW, Chicago</span></div>';
+  }
+  function pick(btn){ [...btn.parentElement.children].forEach(b=>b.classList.remove('on')); btn.classList.add('on'); }
+
+  // delegated navigation
+  document.addEventListener('click', e => {
+    const t = e.target.closest('[data-go]');
+    if(t){ e.stopPropagation(); go(t.dataset.go); }
+  });
+</script>
+</body>
+</html>
