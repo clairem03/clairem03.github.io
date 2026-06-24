@@ -83,7 +83,7 @@ img{display:block;max-width:100%}
 .cover img{width:100%;border:1px solid var(--line);border-radius:14px;background:#fff}
 
 /* ---------- sections ---------- */
-.block{max-width:var(--maxw);margin:0 auto;padding:80px 28px;border-top:1px solid var(--line)}
+.block{max-width:var(--maxw);margin:0 auto;padding:72px 28px;border-top:1px solid var(--line)}
 .block:first-of-type{border-top:none}
 .block h2{
   font-family:var(--display);font-weight:500;
