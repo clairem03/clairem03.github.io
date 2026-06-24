@@ -44,7 +44,7 @@
   <div><p class="eyebrow">The problem</p><h2>Generic lists make you overpack</h2></div>
   <div>
     <p>Travel makes it easy to slip up — forget the charger, overpack five "just in case" outfits, or land somewhere without the one thing you actually needed. The usual packing lists don't help, because they're the same no matter where you're going: a flat checklist that tells you to bring seven pairs of socks for a three-day trip.</p>
-    <p>Pack Smarter takes the guesswork out. Instead of a one-size-fits-all list, it asks a few quick questions and builds a list around the trip you're actually taking.</p>
+    <p>I wanted a list that adapts to the trip you're actually taking — and that tells you to bring <em>less</em>.</p>
     <div class="roles">
       <span>Concept</span><span>UX flow</span><span>UI design</span>
       <span>Packing logic</span><span>Prototype</span>
@@ -53,24 +53,61 @@
 </section>
 
 <section class="block reveal">
-  <p class="eyebrow">The idea</p>
-  <h2>Three questions, one tidy list</h2>
-  <p>The whole flow turns on three inputs: how many days you'll be gone, what the weather's like, and the kind of trip it is. A stepper sets the day count, and pill toggles handle the rest — Cold / 50–65° / 65–75° / Warm for weather, and Outdoors / Relaxing / City for trip type. One tap on "Build my list" and you're done answering questions.</p>
-  <figure class="fig">
-    <img src="../images/packsmarter-trip.jpg" alt="Trip details screen — days stepper, weather pills, trip-type pills">
-    <figcaption>The entire input — days, weather, and trip type, in a few taps</figcaption>
-  </figure>
+  <p class="eyebrow">What I owned</p>
+  <h2>Every piece — and one I took furthest</h2>
+  <p>Pack Smarter is a solo project, so all of it is mine: the concept, the flow, the interface, and the packing logic underneath. The part I took furthest was that logic — the rules that decide what lands on your list and how much of it.</p>
+  <p>I designed it to behave like an experienced traveler rather than a multiplication table. That one decision — that the smart part should live in the <em>quantities</em>, not just the screens — shaped everything else about the product.</p>
 </section>
 
 <section class="block reveal">
-  <p class="eyebrow">The smart part</p>
-  <h2>A list that thinks like a traveler</h2>
-  <p>This is where the project earns its name. The list isn't a static template — the quantities and items shift with the answers, and they're capped to match how people actually pack. Rather than scaling linearly (nine days does <em>not</em> mean nine pairs of socks), Pack Smarter packs the <strong>3-3-3 way</strong>: light, assuming a laundry run midway. Every list carries a "packing pass" chip summarizing the trip, and a note that says exactly why it's capped.</p>
-  <figure class="fig">
-    <img src="../images/packsmarter-list.jpg" alt="Generated packing list for a 4-day cold outdoors trip, grouped into categories">
-    <figcaption>The generated list — grouped into Clothes, Essentials, Toiletries, Extras, with the 3-3-3 note up top</figcaption>
-  </figure>
-  <p>Weather and trip type reshape the contents, not just the counts. A cold outdoors trip surfaces a thermal base layer, beanie and gloves, and hiking boots; a warm relaxing trip swaps in a swimsuit, sandals, and a sun hat. Same flow, genuinely different list.</p>
+  <p class="eyebrow">Who it's for</p>
+  <h2>Three ways people overpack</h2>
+  <p>I designed around the failure modes I kept seeing in real packing — each one a different reason a generic list lets you down.</p>
+  <div class="roles-grid">
+    <div class="role-card"><h4>The over-packer</h4><p>Throws in five "just in case" outfits for a weekend. Needs a list confident enough to say less.</p></div>
+    <div class="role-card"><h4>The forgetter</h4><p>Nails the clothes, lands without the charger. Needs the essentials handled automatically.</p></div>
+    <div class="role-card"><h4>The variable traveler</h4><p>A cold 4-day hike one month, a warm 9-day trip the next. Needs the list to genuinely change.</p></div>
+  </div>
+</section>
+
+<section class="block reveal">
+  <p class="eyebrow">The approach</p>
+  <h2>Designing a list that thinks</h2>
+  <p>The whole product turns on three inputs and a set of rules behind them. Here's how I built the logic up.</p>
+
+  <div class="step"><div class="n">01</div><div>
+    <h3>Start from three quick questions</h3>
+    <p>Days, weather, and trip type — a stepper for the day count and pill toggles for the rest (Cold / 50–65° / 65–75° / Warm, and Outdoors / Relaxing / City). The entire input fits on one short screen.</p>
+    <figure class="fig">
+      <img src="../images/packsmarter-trip.jpg" alt="Trip details screen — days stepper, weather pills, trip-type pills">
+      <figcaption>The entire input — days, weather, and trip type, in a few taps</figcaption>
+    </figure>
+  </div></div>
+
+  <div class="step"><div class="n">02</div><div>
+    <h3>Cap quantities the 3-3-3 way</h3>
+    <p>Rather than scaling linearly — nine days does <em>not</em> mean nine pairs of socks — the list packs light, assuming a laundry run midway. Every list carries a "packing pass" summary and a note explaining exactly why it's capped.</p>
+    <figure class="fig">
+      <img src="../images/packsmarter-list.jpg" alt="Generated packing list for a 4-day cold outdoors trip, grouped into categories">
+      <figcaption>The generated list — grouped into Clothes, Essentials, Toiletries, Extras, with the 3-3-3 note up top</figcaption>
+    </figure>
+  </div></div>
+
+  <div class="step"><div class="n">03</div><div>
+    <h3>Reshape the contents, not just the counts</h3>
+    <p>Weather and trip type change <em>what</em> appears, not only how much. A cold outdoors trip surfaces a thermal base layer, beanie and gloves, and hiking boots; a warm relaxing trip swaps in a swimsuit, sandals, and a sun hat.</p>
+  </div></div>
+
+  <div class="step"><div class="n">04</div><div>
+    <h3>Make it a working checklist</h3>
+    <p>The list is a tool, not a printout — items check off with a strikethrough as the bag fills, categories show live counts, and an "add your own item" field covers what no rule could guess.</p>
+  </div></div>
+</section>
+
+<section class="block reveal">
+  <p class="eyebrow">The result</p>
+  <h2>Same flow, genuinely different list</h2>
+  <p>The clearest proof the logic works is putting two trips side by side. The same three questions produce two lists that don't look alike — in contents and in counts.</p>
   <div class="gallery">
     <figure class="fig">
       <img src="../images/packsmarter-clothes.jpg" alt="Expanded clothes list for a cold outdoors trip with checkable items">
@@ -81,27 +118,7 @@
       <figcaption>Warm · Relaxing · 9 days — shorts, swimsuit, loungewear (socks capped at 6, not 9)</figcaption>
     </figure>
   </div>
-</section>
-
-<section class="block reveal">
-  <p class="eyebrow">Using it</p>
-  <h2>From list to packed bag</h2>
-  <p>The list is a working tool, not a printout. Items check off with a strikethrough as the bag fills, each category shows a live count, and there's an "add your own item" field for the things no algorithm could guess. When everything's in, an "All set" screen closes the loop.</p>
-  <figure class="fig phone">
-    <img src="../images/packsmarter-ready.jpg" alt="All set confirmation screen showing trip summary">
-    <figcaption>The finish line — trip summary and a list ready to tick off</figcaption>
-  </figure>
   <p><a class="back" style="color:var(--accent)" href="pack-smarter-prototype.html">Open the interactive prototype &rarr;</a></p>
-</section>
-
-<section class="block reveal">
-  <p class="eyebrow">Design decisions</p>
-  <h2>Friendly, calm, and fast</h2>
-  <ul class="takeaways">
-    <li>A soft blue-and-navy palette and rounded, friendly type keep the tone light — packing should feel easy, not like filing taxes.</li>
-    <li>Pill-shaped toggles make every choice a single tap, which is what lets the whole input fit on one short screen.</li>
-    <li>The "packing pass" chip and the 3-3-3 note do quiet teaching — they tell you the list is tailored and <em>why</em> it's capped, building trust in the output.</li>
-  </ul>
 </section>
 
 <nav class="pager">
