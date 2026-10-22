@@ -1,477 +1,496 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Claire Miller — Portfolio</title>
-<meta name="description" content="Claire Miller — software engineering senior at Iowa State University, with experience across product, design, and engineering at Delta Air Lines and beyond." />
-
-
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Claire Miller, software engineering senior at Iowa State. Product, data, and design work at Delta Air Lines and beyond.">
+<title>Claire Miller Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-  :root{
-    --paper:#FBF9F5;
-    --paper-2:#F2EDE3;
-    --ink:#1C1A17;
-    --slate:#6B665E;
-    --line:#E5DFD4;
-    --accent:#7A2738;          /* the one knob: change this to re-theme */
-    --accent-tint:rgba(122,39,56,.07);
-    --display:'Fraunces',Georgia,serif;
-    --body:'Inter',system-ui,sans-serif;
-    --mono:'JetBrains Mono',ui-monospace,monospace;
-    --maxw:1080px;
-  }
+/* Layout: one long flight. A wireframe globe stays fixed behind the page while each section repaints the whole screen. */
+:root{
+  --bg:#FBF9F5; --fg:#1C1A17; --muted:#6B665E; --accent:#7A2738;
+  --line:color-mix(in srgb, var(--fg) 16%, transparent);
+  --soft:color-mix(in srgb, var(--fg) 6%, transparent);
+  --display:'Fraunces', Georgia, serif;
+  --body:'Inter', system-ui, -apple-system, sans-serif;
+  --h1-case:none; --h1-weight:500; --h1-track:-0.035em; --h-weight:500;
+  --maxw:1120px;
+  color-scheme:light;
+}
+html[data-dir="redeye"]{ --display:'Instrument Serif', Georgia, serif; --body:'Geist', system-ui, sans-serif; --h1-weight:400; --h1-track:-0.02em; --h-weight:400 }
+html[data-dir="departures"]{ --display:'Big Shoulders Display', Impact, 'Arial Narrow', sans-serif; --body:'Figtree', system-ui, sans-serif; --h1-case:uppercase; --h1-weight:800; --h1-track:-0.01em; --h-weight:800 }
 
-  *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth;scroll-padding-top:84px}
-  body{
-    font-family:var(--body);
-    background:var(--paper);
-    color:var(--ink);
-    line-height:1.65;
-    -webkit-font-smoothing:antialiased;
-  }
-  a{color:inherit}
-  ::selection{background:var(--accent);color:#fff}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; scroll-padding-top:72px}
+body{margin:0; background:var(--bg); color:var(--fg); font-family:var(--body); font-size:17px; line-height:1.6; -webkit-font-smoothing:antialiased; overflow-x:hidden}
+a{color:inherit}
+img{max-width:100%; display:block}
+::selection{background:var(--accent); color:var(--bg)}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:3px}
 
-  /* ---- utility: mono label ---- */
-  .eyebrow{
-    font-family:var(--mono);
-    font-size:.72rem;
-    letter-spacing:.18em;
-    text-transform:uppercase;
-    color:var(--accent);
-    font-weight:500;
-  }
+#sky{position:fixed; inset:0; width:100%; height:100%; z-index:0; pointer-events:none}
+.nav, main, footer{position:relative; z-index:1}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-left:max(20px, env(safe-area-inset-left, 0px)); padding-right:max(20px, env(safe-area-inset-right, 0px))}
 
-  /* ---- header ---- */
-  .site-head{
-    position:sticky;top:0;z-index:50;
-    background:rgba(251,249,245,.82);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--line);
-  }
-  .head-inner{
-    max-width:var(--maxw);margin:0 auto;
-    display:flex;align-items:center;justify-content:space-between;
-    padding:16px 28px;
-  }
-  .wordmark{font-family:var(--display);font-size:1.15rem;font-weight:600;letter-spacing:-.01em}
-  .wordmark span{color:var(--accent)}
-  .nav{display:flex;align-items:center;gap:26px}
-  .nav a{
-    font-family:var(--mono);font-size:.74rem;letter-spacing:.04em;
-    text-transform:uppercase;text-decoration:none;color:var(--slate);
-    padding:4px 0;transition:color .2s;
-  }
-  .nav a:hover,.nav a.active{color:var(--ink)}
-  .nav a.resume{color:var(--accent)}
-  .nav-toggle{display:none;background:none;border:1px solid var(--line);border-radius:6px;
-    padding:8px 10px;font-family:var(--mono);font-size:.72rem;cursor:pointer;color:var(--ink)}
+/* nav */
+body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top, 0px); z-index:10; background:var(--bg)}
+.nav{position:sticky; top:env(safe-area-inset-top, 0px); z-index:5; background:color-mix(in srgb, var(--bg) 78%, transparent); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px)}
+.nav .wrap{display:flex; align-items:center; justify-content:space-between; gap:16px; height:64px}
+.brand{font-family:var(--display); font-weight:var(--h-weight); font-size:1.25rem; text-decoration:none; text-transform:var(--h1-case); letter-spacing:var(--h1-track)}
+.nav ul{display:flex; gap:clamp(14px, 3vw, 32px); list-style:none; margin:0; padding:0; font-size:.95rem}
+.nav ul a{text-decoration:none; color:var(--muted)}
+.nav ul a:hover{color:var(--fg)}
+@media (max-width:620px){ .nav ul li.opt{display:none} }
 
-  /* ---- layout ---- */
-  main{display:block}
-  .section{max-width:var(--maxw);margin:0 auto;padding:96px 28px}
-  .section-head{margin-bottom:48px}
-  .section-head h2{
-    font-family:var(--display);font-weight:500;
-    font-size:clamp(1.9rem,4.2vw,2.7rem);letter-spacing:-.02em;line-height:1.1;
-    margin-top:10px;
-  }
-  .num{color:var(--accent)}
+/* hero */
+.hero{padding-block:clamp(72px, 15vh, 170px) clamp(72px, 14vh, 150px)}
+.hero h1{font-family:var(--display); font-weight:var(--h1-weight); text-transform:var(--h1-case); letter-spacing:var(--h1-track); font-size:clamp(3.8rem, 12.5vw, 10rem); line-height:.88; margin:0 0 36px}
+.hero h1 span{display:block; animation:rise 1s cubic-bezier(.2,.7,.2,1) both}
+.hero h1 span + span{animation-delay:.12s}
+@keyframes rise{from{transform:translateY(35%); opacity:0}}
+.lede{font-size:clamp(1.15rem, 1.9vw, 1.4rem); line-height:1.5; max-width:34ch; margin:0 0 18px}
+.status{color:var(--muted); max-width:44ch; margin:0 0 36px}
+.ctas{display:flex; flex-wrap:wrap; gap:12px}
+.btn{display:inline-flex; align-items:center; height:48px; padding:0 22px; border-radius:999px; text-decoration:none; font-weight:500; border:1.5px solid var(--fg); transition:background .2s, color .2s}
+.btn.solid{background:var(--fg); color:var(--bg)}
+.btn:hover{background:var(--accent); border-color:var(--accent); color:var(--bg)}
 
-  /* ---- hero ---- */
-  .hero{max-width:var(--maxw);margin:0 auto;padding:104px 28px 88px}
-  .hero h1{
-    font-family:var(--display);font-weight:500;
-    font-size:clamp(2.7rem,7vw,4.6rem);line-height:1.02;letter-spacing:-.025em;
-    margin:18px 0 22px;
-  }
-  .hero h1 em{font-style:italic;color:var(--accent)}
-  .lead{font-size:1.12rem;max-width:38ch;color:#34302a}
-  .status{
-    display:inline-flex;align-items:center;gap:8px;margin-top:26px;
-    font-family:var(--mono);font-size:.74rem;letter-spacing:.03em;color:var(--slate);
-    border:1px solid var(--line);border-radius:999px;padding:7px 14px;
-  }
-  .dot{width:7px;height:7px;border-radius:50%;background:var(--accent);display:inline-block}
-  .hero-cta{display:flex;gap:14px;margin-top:28px;flex-wrap:wrap}
-  .btn{
-    font-family:var(--mono);font-size:.76rem;letter-spacing:.04em;text-transform:uppercase;
-    text-decoration:none;padding:13px 22px;border-radius:8px;transition:transform .2s,background .2s,color .2s;
-  }
-  .btn-solid{background:var(--ink);color:var(--paper)}
-  .btn-solid:hover{background:var(--accent);transform:translateY(-2px)}
-  .btn-ghost{border:1px solid var(--line);color:var(--ink)}
-  .btn-ghost:hover{border-color:var(--ink);transform:translateY(-2px)}
+/* sections */
+section.band{padding-block:clamp(80px, 13vh, 150px)}
+h2{font-family:var(--display); font-weight:var(--h-weight); text-transform:var(--h1-case); letter-spacing:var(--h1-track); font-size:clamp(2.6rem, 7vw, 5.5rem); line-height:.95; margin:0 0 clamp(40px, 7vh, 72px); text-wrap:balance}
+h3{font-family:var(--display); font-weight:var(--h-weight); text-transform:var(--h1-case); letter-spacing:-0.01em; line-height:1.1; margin:0; text-wrap:balance}
 
-  /* ---- work ---- */
-  .work-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px}
-  .proj{
-    border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff;
-    transition:transform .25s,box-shadow .25s,border-color .25s;display:flex;flex-direction:column;
-  }
-  a.proj{text-decoration:none}                /* cards are now links to case studies */
-  .proj:hover{transform:translateY(-4px);box-shadow:0 18px 40px -22px rgba(28,26,23,.35);border-color:#d9d1c2}
-  .ph{
-    aspect-ratio:16/10;background:
-      repeating-linear-gradient(45deg,var(--paper-2),var(--paper-2) 11px,#ece6da 11px,#ece6da 22px);
-    display:flex;align-items:center;justify-content:center;
-  }
-  .ph span{font-family:var(--mono);font-size:.72rem;letter-spacing:.08em;color:var(--slate);
-    background:var(--paper);padding:6px 12px;border-radius:6px;border:1px solid var(--line)}
-  .ph-img{width:100%;aspect-ratio:16/10;object-fit:cover;display:block} /* for your real screenshots */
-  .proj-body{padding:24px 24px 26px;display:flex;flex-direction:column;gap:10px}
-  .proj-role{font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--accent)}
-  .proj h3{font-family:var(--display);font-weight:500;font-size:1.4rem;letter-spacing:-.01em;line-height:1.15}
-  .proj p{font-size:.95rem;color:#403b34}
-  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:6px}
-  .tag{font-family:var(--mono);font-size:.66rem;letter-spacing:.04em;color:var(--slate);
-    background:var(--accent-tint);padding:5px 10px;border-radius:6px}
-  .proj-cta{margin-top:10px;font-family:var(--mono);font-size:.68rem;letter-spacing:.1em;
-    text-transform:uppercase;color:var(--accent);display:inline-flex;align-items:center;gap:6px;transition:gap .2s}
-  .proj:hover .proj-cta{gap:11px}
+/* product work */
+.features{display:grid; gap:0; margin-bottom:clamp(64px, 10vh, 110px)}
+.feature{display:grid; grid-template-columns:minmax(0, 1fr) minmax(0, 1.35fr); gap:clamp(20px, 5vw, 72px); padding-block:40px; border-top:1px solid var(--line)}
+.feature:last-child{border-bottom:1px solid var(--line)}
+.feature .meta{color:var(--muted); font-size:.92rem; margin:0 0 12px}
+.feature h3{font-size:clamp(1.7rem, 3.2vw, 2.5rem)}
+.feature p.desc{margin:0; max-width:60ch}
+.stat{display:flex; align-items:baseline; gap:14px; margin-top:24px; flex-wrap:wrap}
+.stat b{font-family:var(--display); font-weight:var(--h-weight); font-size:clamp(2.2rem, 4vw, 3.2rem); line-height:1; color:var(--accent)}
+.stat span{color:var(--muted); font-size:.95rem}
+.tags{display:flex; flex-wrap:wrap; gap:8px; margin-top:22px; padding:0; list-style:none}
+.tags li{font-size:.82rem; padding:4px 12px; border-radius:999px; background:var(--soft)}
 
-  /* ---- experience timeline ---- */
-  .tl{border-left:1px solid var(--line);margin-left:6px}
-  .tl-item{position:relative;padding:0 0 40px 32px}
-  .tl-item:last-child{padding-bottom:0}
-  .tl-item::before{content:"";position:absolute;left:-5px;top:6px;width:9px;height:9px;
-    border-radius:50%;background:var(--accent);box-shadow:0 0 0 4px var(--paper)}
-  .tl-when{font-family:var(--mono);font-size:.7rem;letter-spacing:.06em;color:var(--slate);text-transform:uppercase}
-  .tl-item h3{font-family:var(--display);font-weight:500;font-size:1.28rem;margin:7px 0 2px;letter-spacing:-.01em}
-  .tl-org{color:var(--accent);font-size:.92rem;margin-bottom:10px}
-  .tl-item ul{list-style:none;display:flex;flex-direction:column;gap:7px}
-  .tl-item li{position:relative;padding-left:18px;font-size:.95rem;color:#403b34}
-  .tl-item li::before{content:"–";position:absolute;left:0;color:var(--accent)}
+.cases{display:grid; grid-template-columns:repeat(2, minmax(0, 1fr)); gap:clamp(28px, 4vw, 48px) clamp(20px, 3vw, 36px)}
+.case{text-decoration:none; display:grid; gap:14px}
+.case .img{aspect-ratio:16/10; max-width:100%; overflow:hidden; border-radius:6px; background:var(--soft)}
+.case img{width:100%; height:100%; object-fit:cover; transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.case:hover img{transform:scale(1.04)}
+.case h3{font-size:clamp(1.5rem, 2.6vw, 2rem)}
+.case .role{color:var(--muted); font-size:.92rem; margin:0}
+.case p{margin:0; max-width:52ch}
+.case .more{font-weight:500; text-decoration:underline; text-underline-offset:4px; text-decoration-color:var(--accent)}
+.subhead{font-family:var(--display); font-weight:var(--h-weight); text-transform:var(--h1-case); font-size:clamp(1.4rem, 2.4vw, 1.8rem); margin:0 0 28px}
 
-  /* ---- about ---- */
-  .about{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
-  .about p{font-size:1.06rem;color:#34302a;margin-bottom:18px}
-  .about p:last-child{margin-bottom:0}
-  .about-aside{font-family:var(--mono);font-size:.8rem;color:var(--slate);
-    border-left:1px solid var(--line);padding-left:24px;line-height:2}
-  .about-aside b{color:var(--ink);font-weight:500}
+/* experience */
+.jobs{list-style:none; margin:0; padding:0; max-width:900px}
+.job{display:grid; grid-template-columns:150px minmax(0, 1fr); gap:8px 32px; padding-block:26px; border-top:1px solid var(--line)}
+.job:last-child{border-bottom:1px solid var(--line)}
+.job time{color:var(--muted); font-size:.92rem; font-variant-numeric:tabular-nums; padding-top:4px}
+.job h3{font-size:clamp(1.3rem, 2.2vw, 1.65rem)}
+.job .org{color:var(--muted); margin:2px 0 8px}
+.job p{margin:0; max-width:60ch}
 
-  /* ---- skills ---- */
-  .skills{display:grid;grid-template-columns:repeat(2,1fr);gap:28px}
-  .skill-block{border-top:1px solid var(--ink);padding-top:16px}
-  .skill-block h4{font-family:var(--mono);font-size:.74rem;letter-spacing:.1em;text-transform:uppercase;
-    color:var(--accent);margin-bottom:12px}
-  .skill-block p{font-size:.98rem;color:#34302a;line-height:1.9}
+/* about */
+.about{display:grid; grid-template-columns:minmax(0, 1.1fr) minmax(0, 1fr); gap:clamp(40px, 7vw, 100px)}
+.about p{margin:0 0 18px; font-size:1.12rem; max-width:52ch}
+.skills{margin:0; display:grid; gap:22px}
+.skills dt{font-weight:600; margin-bottom:2px}
+.skills dd{margin:0; color:var(--muted)}
 
-  /* ---- contact ---- */
-  .contact{background:var(--ink);color:var(--paper);border-radius:18px;
-    padding:60px 48px;max-width:var(--maxw);margin:40px auto 0;text-align:center}
-  .contact .eyebrow{color:#d98a9a}
-  .contact h2{font-family:var(--display);font-weight:500;font-size:clamp(2rem,5vw,3rem);
-    letter-spacing:-.02em;margin:12px 0 12px;line-height:1.1}
-  .contact p{color:#c9c2b8;max-width:46ch;margin:0 auto 30px}
-  .contact-links{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
-  .contact-links a{font-family:var(--mono);font-size:.76rem;letter-spacing:.04em;text-transform:uppercase;
-    text-decoration:none;color:var(--paper);border:1px solid rgba(251,249,245,.28);
-    padding:12px 20px;border-radius:8px;transition:background .2s,color .2s}
-  .contact-links a:hover{background:var(--paper);color:var(--ink)}
-  .contact-links a.primary{background:var(--paper);color:var(--ink)}
-  .contact-links a.primary:hover{background:#d98a9a;color:var(--ink)}
+/* contact */
+.contact h2{font-size:clamp(3.4rem, 11vw, 8.5rem); margin-bottom:28px}
+.contact p{max-width:40ch; margin:0 0 28px; font-size:1.1rem}
+.email{display:flex; flex-wrap:wrap; align-items:center; gap:12px 18px; margin-bottom:36px}
+.email code{font-family:var(--body); font-size:clamp(1.15rem, 3vw, 1.7rem); user-select:all; word-break:break-all}
+.email button{font:inherit; font-size:.9rem; height:38px; padding:0 16px; border-radius:999px; border:1.5px solid var(--fg); background:transparent; color:var(--fg); cursor:pointer}
+.email button:hover{background:var(--fg); color:var(--bg)}
+.links{display:flex; flex-wrap:wrap; gap:12px}
+footer{padding-block:40px 120px; color:var(--muted); font-size:.88rem}
 
-  footer{max-width:var(--maxw);margin:0 auto;padding:40px 28px 60px;
-    display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;
-    font-family:var(--mono);font-size:.72rem;letter-spacing:.04em;color:var(--slate)}
+/* direction switcher (preview only) */
+.dirs{position:fixed; z-index:20; left:50%; transform:translateX(-50%); bottom:calc(16px + env(safe-area-inset-bottom, 0px)); display:flex; gap:4px; padding:5px; border-radius:999px; background:var(--fg); box-shadow:0 8px 30px rgba(0,0,0,.18); max-width:calc(100% - 32px)}
+.dirs button{font:500 .88rem/1 var(--body); border:0; border-radius:999px; padding:10px 14px; background:transparent; color:var(--bg); cursor:pointer; white-space:nowrap}
+.dirs button[aria-pressed="true"]{background:var(--bg); color:var(--fg)}
 
-  /* ---- reveal animation ---- */
-  .reveal{opacity:0;transform:translateY(16px);transition:opacity .7s ease,transform .7s ease}
-  .reveal.is-visible{opacity:1;transform:none}
-
-  /* ---- focus ---- */
-  a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
-
-  /* ---- responsive ---- */
-  @media(max-width:820px){
-    .hero{padding-top:56px}
-    .about{grid-template-columns:1fr;gap:28px}
-    .about-aside{border-left:none;border-top:1px solid var(--line);padding-left:0;padding-top:20px}
-    .skills{grid-template-columns:1fr}
-    .nav{display:none;position:absolute;top:100%;left:0;right:0;flex-direction:column;gap:0;
-      background:var(--paper);border-bottom:1px solid var(--line);padding:8px 28px 18px}
-    .nav.open{display:flex}
-    .nav a{padding:12px 0;border-bottom:1px solid var(--line)}
-    .nav a:last-child{border-bottom:none}
-    .nav-toggle{display:block}
-    .head-inner{position:relative}
-    .section{padding:72px 28px}
-    .contact{padding:48px 26px}
-  }
-
-  @media(prefers-reduced-motion:reduce){
-    html{scroll-behavior:auto}
-    .reveal{opacity:1;transform:none;transition:none}
-    *{animation:none!important}
-  }
+@media (max-width:760px){
+  .feature, .about{grid-template-columns:minmax(0, 1fr)}
+  .cases{grid-template-columns:minmax(0, 1fr)}
+  .job{grid-template-columns:minmax(0, 1fr)}
+  .dirs button{padding:9px 10px; font-size:.8rem}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .hero h1 span{animation:none}
+  .case img{transition:none}
+}
 </style>
+
 </head>
 <body>
+<canvas id="sky" aria-hidden="true"></canvas>
 
-<header class="site-head">
-  <div class="head-inner">
-    <div class="wordmark">Claire <span>Miller</span></div>
-    <button class="nav-toggle" aria-expanded="false" aria-controls="nav">Menu</button>
-    <nav class="nav" id="nav">
-      <a href="#work">Work</a>
-      <a href="#experience">Experience</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-      <!-- Resume: this points to Claire_M_Resume.pdf at the root of your repo -->
-      <a class="resume" href="https://github.com/clairem03/clairem03.github.io/raw/main/Claire_M_Resume.pdf" target="_blank" rel="noopener">Résumé ↗</a>
-    </nav>
+<nav class="nav" aria-label="Main">
+  <div class="wrap">
+    <a class="brand" href="#top">Claire Miller</a>
+    <ul>
+      <li><a href="#work">Work</a></li>
+      <li class="opt"><a href="#experience">Experience</a></li>
+      <li class="opt"><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="https://clairem03.github.io/Claire_M_Resume.pdf" target="_blank" rel="noopener">Résumé</a></li>
+    </ul>
   </div>
-</header>
+</nav>
 
-<main>
-  <!-- ============ HERO ============ -->
-  <section class="hero" id="top">
-    <div>
-      <span class="eyebrow">Software Engineer + Product Manager</span>
-      <h1>Claire Miller</h1>
-      <p class="lead">Software engineering senior at Iowa State, building across product, design, and engineering.</p>
-      <span class="status"><span class="dot"></span> Graduating December 2026 · open to full-time roles</span>
-      <div class="hero-cta">
-        <a class="btn btn-solid" href="#work">View work</a>
-        <a class="btn btn-ghost" href="mailto:clairemiller064@gmail.com">Email me</a>
+<main id="top">
+  <section class="hero" data-scene="hero">
+    <div class="wrap">
+      <h1><span>Claire</span><span>Miller</span></h1>
+      <p class="lede">Software engineering senior at Iowa State who likes figuring out what's worth building, then building it.</p>
+      <p class="status">Two co-ops at Delta Air Lines, a startup I co-founded, and an AI agent that predicts flight delays. Graduating December 2026 and looking for APM and PM roles, open to data and UX work too.</p>
+      <div class="ctas">
+        <a class="btn solid" href="#work">See my work</a>
+        <a class="btn" href="https://clairem03.github.io/Claire_M_Resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a>
       </div>
     </div>
   </section>
 
-  <!-- ============ WORK ============ -->
-  <section class="section" id="work">
-    <div class="section-head reveal">
-      <span class="eyebrow"><span class="num">01</span> / Selected work</span>
-      <h2>Projects</h2>
-    </div>
+  <section class="band" id="work" data-scene="work">
+    <div class="wrap">
+      <h2>Things I've built</h2>
 
-    <div class="work-grid">
+      <div class="features">
+        <article class="feature">
+          <div>
+            <p class="meta">Delta Air Lines, Product Management Co-op, 2025</p>
+            <h3>Taking routine cases off a review queue</h3>
+          </div>
+          <div>
+            <p class="desc">A 40+ person team was hand-reviewing reservation cases that didn't need a person. I owned the automation that filters those out, from requirements and user stories through five build iterations with IT, and we shipped in four months. I also built the dashboards IT and leadership use to watch queue volume.</p>
+            <div class="stat"><b>800+</b><span>manual hours saved every month</span></div>
+          </div>
+        </article>
 
-      <!-- PROJECT 1 — Odyssey -->
-      <a class="proj reveal" href="projects/odyssey.html">
-        <img class="ph-img" src="images/odyssey-login.png" alt="Odyssey — outdoor trips platform">
-        <div class="proj-body">
-          <span class="proj-role">UI/UX · Branding · Frontend</span>
-          <h3>Odyssey — Senior Capstone</h3>
-          <p>A six-person senior capstone project creating a platform for students to discover and sign up for outdoor trips while organizers manage trip details in one place. I led client relations, designed the branding and UI/UX, and contributed to frontend development.</p>
-          <div class="tags"><span class="tag">Logo Design</span><span class="tag">Theming</span><span class="tag">Wireframing</span><span class="tag">UI/UX</span><span class="tag">Frontend</span></div>
-          <span class="proj-cta">View case study &rarr;</span>
-        </div>
-      </a>
+        <article class="feature">
+          <div>
+            <p class="meta">Delta Air Lines, Data Management Co-op, 2026</p>
+            <h3>One source of truth for reservations data</h3>
+          </div>
+          <div>
+            <p class="desc">Teams were pulling their own manual snapshots from legacy systems and getting different answers. I talked with stakeholders across 14 business units to turn conflicting needs into one set of requirements, then designed the ingestion pipeline into the data lakehouse with three IT teams.</p>
+            <div class="stat"><b>On demand</b><span>metrics that used to take a day or more</span></div>
+          </div>
+        </article>
 
-      <!-- PROJECT 2 — Farm to Table -->
-      <a class="proj reveal" href="projects/farm-to-table.html">
-        <img class="ph-img" src="images/farm-to-table-hero.png" alt="Farm to Table">
-        <div class="proj-body">
-          <span class="proj-role">Product Design · Co-Founder</span>
+        <article class="feature">
+          <div>
+            <p class="meta">Personal project, 2026</p>
+            <h3>Flight Delay Prediction Agent</h3>
+          </div>
+          <div>
+            <p class="desc">Ask it a plain question about a flight and it pulls live flight, weather, and FAA data in parallel to answer. The language model handles retrieval and explanation, and a separate scoring engine makes the actual delay call, so every prediction can be audited. Regression tests and tracing keep prompt changes in check.</p>
+            <ul class="tags"><li>Python</li><li>Google ADK</li><li>Gemini on Vertex AI</li><li>LLM evaluation</li></ul>
+          </div>
+        </article>
+      </div>
+
+      <p class="subhead">Design and product case studies</p>
+      <div class="cases">
+        <a class="case" href="https://clairem03.github.io/projects/odyssey.html">
+          <div class="img"><img src="images/odyssey-cover.png" alt="Odyssey trip platform screens" loading="lazy"></div>
+          <h3>Odyssey</h3>
+          <p class="role">Senior capstone, team of six</p>
+          <p>A place for students to find and sign up for outdoor trips. I led client relations, branding, and UI, and worked on the frontend.</p>
+          <span class="more">Read the case study</span>
+        </a>
+        <a class="case" href="https://clairem03.github.io/projects/farm-to-table.html">
+          <div class="img"><img src="images/farm-to-table-cover.png" alt="Farm to Table landing page" loading="lazy"></div>
           <h3>Farm to Table</h3>
-          <p>An early-stage platform connecting consumers with local farmers for bulk beef purchases. As a co-founder, I led user research, wireframing, and frontend development from concept to MVP.</p>
-          <div class="tags"><span class="tag">UX Research</span><span class="tag">Wireframing</span><span class="tag">User Flows</span><span class="tag">Frontend</span></div>
-          <span class="proj-cta">View case study &rarr;</span>
-        </div>
-      </a>
-
-      <!-- PROJECT 3 — Pack Smarter -->
-      <a class="proj reveal" href="projects/pack-smarter.html">
-        <img class="ph-img" src="images/packsmarter-hero.jpg" alt="Pack Smarter — adaptive packing list app">
-        <div class="proj-body">
-          <span class="proj-role">UX/UI · Solo Project</span>
+          <p class="role">Co-founder and product lead</p>
+          <p>Connecting people with local farmers for bulk beef. I lead product, from user research to wireframes to frontend.</p>
+          <span class="more">Read the case study</span>
+        </a>
+        <a class="case" href="https://clairem03.github.io/projects/pack-smarter.html">
+          <div class="img"><img src="images/packsmarter-hero.jpg" alt="Pack Smarter app home screen" loading="lazy"></div>
           <h3>Pack Smarter</h3>
-          <p>An adaptive packing-list web app that builds a tailored list from three quick questions about your trip. I designed the concept, flow, and UI, and the laundry-aware 3-3-3 logic that keeps lists light.</p>
-          <div class="tags"><span class="tag">UX/UI</span><span class="tag">Interaction Design</span><span class="tag">Prototyping</span><span class="tag">Product Logic</span></div>
-          <span class="proj-cta">View case study &rarr;</span>
-        </div>
-      </a>
-
-      <!-- PROJECT 4 — Syncro (HCI) -->
-      <a class="proj reveal" href="projects/syncro.html">
-        <img class="ph-img" src="images/syncro-screens.png" alt="Syncro — travel and calendar app">
-        <div class="proj-body">
-          <span class="proj-role">UX Design · HCI</span>
-          <h3>Syncro — HCI Project</h3>
-          <p>An HCI project focused on simplifying travel through traffic alerts, departure reminders, and parking assistance. I contributed to user research, prototyping, and usability testing to improve the user experience.</p>
-          <div class="tags"><span class="tag">User Research</span><span class="tag">Prototyping</span><span class="tag">Usability Testing</span><span class="tag">Figma</span></div>
-          <span class="proj-cta">View case study &rarr;</span>
-        </div>
-      </a>
-
-      <!-- To add more: copy one <a class="proj reveal" href="projects/your-page.html"> ... </a> block. -->
-
-    </div>
-  </section>
-
-  <!-- ============ EXPERIENCE ============ -->
-  <section class="section" id="experience">
-    <div class="section-head reveal">
-      <span class="eyebrow"><span class="num">02</span> / Experience</span>
-      <h2>Work Experience</h2>
-    </div>
-
-    <div class="tl">
-      <div class="tl-item reveal">
-        <span class="tl-when">May 2026 – Present</span>
-        <h3>Data Management Co-Op</h3>
-        <div class="tl-org">Delta Air Lines · Atlanta, GA</div>
-        <ul>
-          <li>Cut metric turnaround from 24+ hours to on-demand for 20+ teams globally by building API-based extraction from legacy systems into the data lakehouse with 3 IT teams</li>
-          <li>Defined build scope by conducting 30+ stakeholder interviews across 14 business units, translating use cases into technical specifications</li>
-          <li>Designed the ingestion pipeline and access patterns from scratch, scoping the build to 800K+ records annually and replacing manual snapshots that varied team to team</li>
-        </ul>
-      </div>
-      <div class="tl-item reveal">
-        <span class="tl-when">Oct 2025 – Present</span>
-        <h3>Co-Founder &amp; Product Manager</h3>
-        <div class="tl-org">Farm to Table</div>
-        <ul>
-          <li>Leading product for an early-stage platform connecting consumers with local farmers for bulk beef purchases.</li>
-          <li>Defining the roadmap, prioritizing MVP scope, and translating user research into wireframes and frontend components.</li>
-          <li>Collaborating with a small engineering team to align on constraints, iterate on user flows, and validate against customer feedback.</li>
-        </ul>
-      </div>
-      <div class="tl-item reveal">
-        <span class="tl-when">Aug 2025 – May 2026</span>
-        <h3>Software Engineering Teaching Assistant</h3>
-        <div class="tl-org">Iowa State University · Ames, IA</div>
-        <ul>
-          <li>Taught programming fundamentals and team-based project practices to 70+ first-year students, leading a weekly lab section across 2 semesters</li>
-          <li>Partnered with faculty to revise course structure and instruction methods</li>
-        </ul>
-      </div>
-      <div class="tl-item reveal">
-        <span class="tl-when">Jan 2025 – Aug 2025</span>
-        <h3>Product Management Co-Op</h3>
-        <div class="tl-org">Delta Air Lines · Atlanta, GA</div>
-        <ul>
-          <li>Eliminated 800+ manual work hours per month, driving ~$150K in projected annual savings, by shipping automation that filtered cases not requiring manual review from a 40+ person review queue</li>
-          <li>Owned the product end to end across 5 build iterations with IT, gathering requirements, writing user stories, and prioritizing backlog to ship in 4 months</li>
-          <li>Built KPI dashboards in SQL, Excel, and VBA on case throughput, used by IT and leadership to track queue volume and allocate review resources</li>
-        </ul>
-      </div>
-      <div class="tl-item reveal">
-        <span class="tl-when">May 2023 – Aug 2023</span>
-        <h3>Software Engineering Intern</h3>
-        <div class="tl-org">Sukup Manufacturing Co. · Sheffield, IA</div>
-        <ul>
-          <li>Cut inventory lookup and manual data entry time by 70% by building a SQL-based search tool, validated through testing against the existing process</li>
-          <li>Reduced documentation and reporting effort by 35% by automating export and distribution of SolidWorks technical documentation to international manufacturing partners</li>
-        </ul>
+          <p class="role">Solo project</p>
+          <p>A packing list that builds itself from three quick questions about your trip, and plans around laundry so you pack less.</p>
+          <span class="more">Read the case study</span>
+        </a>
+        <a class="case" href="https://clairem03.github.io/projects/syncro.html">
+          <div class="img"><img src="images/syncro-cover.png" alt="Syncro travel app screens" loading="lazy"></div>
+          <h3>Syncro</h3>
+          <p class="role">HCI project</p>
+          <p>Traffic alerts, departure reminders, and parking help so getting out the door takes less planning.</p>
+          <span class="more">Read the case study</span>
+        </a>
       </div>
     </div>
   </section>
 
-  <!-- ============ ABOUT ============ -->
-  <section class="section" id="about">
-    <div class="section-head reveal">
-      <span class="eyebrow"><span class="num">03</span> / About</span>
-      <h2>About Me</h2>
+  <section class="band" id="experience" data-scene="experience">
+    <div class="wrap">
+      <h2>Where I've worked</h2>
+      <ol class="jobs">
+        <li class="job"><time>May – Aug 2026</time><div><h3>Data Management Co-op</h3><p class="org">Delta Air Lines, Atlanta</p><p>Scoped and designed a standardized pipeline from legacy reservations systems into the data lakehouse.</p></div></li>
+        <li class="job"><time>Oct 2025 – now</time><div><h3>Co-founder and Product Manager</h3><p class="org">Farm to Table</p><p>Setting the roadmap and MVP scope, and turning user research into wireframes and frontend work.</p></div></li>
+        <li class="job"><time>Aug 2025 – May 2026</time><div><h3>Software Engineering TA</h3><p class="org">Iowa State University</p><p>Led a weekly lab for 70+ first-year students across two semesters.</p></div></li>
+        <li class="job"><time>Jan – Aug 2025</time><div><h3>Product Management Co-op</h3><p class="org">Delta Air Lines, Atlanta</p><p>Owned a reservations automation product end to end, plus the KPI dashboards that track it.</p></div></li>
+        <li class="job"><time>May – Aug 2023</time><div><h3>Software Engineering Intern</h3><p class="org">Sukup Manufacturing, Sheffield, Iowa</p><p>Built a SQL search tool for inventory lookups and automated documentation exports to international partners.</p></div></li>
+      </ol>
     </div>
-    <div class="about reveal">
+  </section>
+
+  <section class="band" id="about" data-scene="about">
+    <div class="wrap about">
       <div>
-        <p>My path into tech wasn't a straight line. I'm a software engineering senior at Iowa State with a minor in hospitality management — a pairing that shaped how I work. Engineering taught me to build things that work; hospitality taught me to care about how people actually feel using them.</p>
-        <p>Since then I've gotten to try a bit of everything: product and data co-op at Delta Air Lines, co-founder of an early-stage startup, and a teaching assistant for 70+ first-year students. Most recently I've been building with LLM agents — tool calling, grounding, and evaluation. What I enjoy most is the problem-solving itself: figuring out what to build, how it should work, and then making it real.</p>
-        <p>Outside of class, you'll usually find me at the climbing gym, and when I'm not, I'm at the piano or painting. I'm graduating in December 2026 and looking for a team where I can keep learning and do work I'm proud of.</p>
+        <h2>About me</h2>
+        <p>I'm finishing a B.S. in Software Engineering at Iowa State with a minor in hospitality management. Engineering taught me to build things that work. Hospitality taught me to care how people feel using them. That mix is a big part of why I keep ending up in product.</p>
+        <p>Lately I've been building with LLM agents, mostly tool calling, grounding, and evaluation. Outside of work you'll find me at the climbing gym, at the piano, or painting.</p>
       </div>
-      <div class="about-aside">
-        <b>Education</b><br>
-        B.S. Software Engineering<br>
-        Minor, Hospitality Management<br>
-        Iowa State University · Dec 2026<br><br>
-        <b>What I bring</b><br>
-        Versatile across design, product &amp; engineering<br>
-        Creative problem-solver<br>
-        Carries ideas from concept to launch
-      </div>
+      <dl class="skills">
+        <div><dt>Product</dt><dd>PRDs, user stories, roadmapping, A/B testing, user research, Agile and Scrum</dd></div>
+        <div><dt>Data</dt><dd>SQL, Excel, Tableau, Power BI, data modeling, KPI reporting, data pipelines</dd></div>
+        <div><dt>AI</dt><dd>LLM evaluation, prompt engineering, agent workflows</dd></div>
+        <div><dt>Design</dt><dd>Figma, wireframing, prototyping, usability testing, design systems</dd></div>
+        <div><dt>Engineering</dt><dd>Java, Python, C, C++, JavaScript, React, Node.js, Spring Boot, MongoDB</dd></div>
+      </dl>
     </div>
   </section>
 
-  <!-- ============ SKILLS ============ -->
-  <section class="section" id="skills">
-    <div class="section-head reveal">
-      <span class="eyebrow"><span class="num">04</span> / Capabilities</span>
-      <h2>My Skills</h2>
-    </div>
-    <div class="skills reveal">
-      <div class="skill-block">
-        <h4>Design &amp; Product</h4>
-        <p>User research &amp; testing · wireframing · user flows · interaction design · design systems · roadmapping · backlog prioritization · Agile / Scrum</p>
+  <section class="band contact" id="contact" data-scene="contact">
+    <div class="wrap">
+      <h2>Say hi</h2>
+      <p>I'm graduating in December and looking for my first full-time role. Email is the easiest way to reach me.</p>
+      <div class="email">
+        <code id="addr">clairemiller064@gmail.com</code>
+        <button type="button" id="copy">Copy email</button>
       </div>
-      <div class="skill-block">
-        <h4>Tools</h4>
-        <p>Figma · VS Code · Git &amp; Github · Android Studio · HTML · CSS · JavaScript</p>
+      <div class="links">
+        <a class="btn solid" href="https://linkedin.com/in/clairemiller03" target="_blank" rel="noopener">LinkedIn</a>
+        <a class="btn" href="https://github.com/clairem03" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn" href="https://clairem03.github.io/Claire_M_Resume.pdf" target="_blank" rel="noopener">Résumé (PDF)</a>
       </div>
-      <div class="skill-block">
-        <h4>Engineering</h4>
-        <p>Java · Python · C · C++ · JavaScript · React · Node.js · Spring Boot · MongoDB</p>
-      </div>
-      <div class="skill-block">
-        <h4>Data &amp; Analytics</h4>
-        <p>SQL · Excel · VBA · Tableau · Power BI · data modeling · KPI reporting</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ CONTACT ============ -->
-  <section class="contact" id="contact">
-    <span class="eyebrow"><span class="num">05</span> / Contact</span>
-    <h2>Get in touch</h2>
-    <p>Always happy to connect!</p>
-    <div class="contact-links">
-      <a class="primary" href="mailto:clairemiller064@gmail.com">Email</a>
-      <a href="https://linkedin.com/in/clairemiller03" target="_blank" rel="noopener">LinkedIn</a>
-      <a href="https://github.com/clairem03" target="_blank" rel="noopener">GitHub</a>
-      <a href="https://github.com/clairem03/clairem03.github.io/raw/main/Claire_M_Resume.pdf" target="_blank" rel="noopener">Resume ↗</a>
     </div>
   </section>
 </main>
 
-<footer>
-  <span>Designed &amp; built by Claire Miller</span>
-  <span>© 2026 · Iowa State University</span>
-</footer>
+<footer><div class="wrap">Designed and built by Claire Miller, 2026</div></footer>
 
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script>
-  // mobile nav
-  const toggle = document.querySelector('.nav-toggle');
-  const nav = document.getElementById('nav');
-  toggle.addEventListener('click', () => {
-    const open = nav.classList.toggle('open');
-    toggle.setAttribute('aria-expanded', open);
-  });
-  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
-    nav.classList.remove('open');
-    toggle.setAttribute('aria-expanded', false);
-  }));
+(() => {
+  // Section palettes, in page order: hero, work, experience, about, contact
+  const PALETTES = {
+    paper: [
+      {bg:'#FBF9F5', fg:'#1C1A17', muted:'#6B665E', accent:'#7A2738', globe:'#7A2738'},
+      {bg:'#7A2738', fg:'#FBF5EF', muted:'#E2C3C9', accent:'#F3D7A7', globe:'#F3D7A7'},
+      {bg:'#F2EDE3', fg:'#1C1A17', muted:'#6B665E', accent:'#7A2738', globe:'#3A3631'},
+      {bg:'#1F3A3A', fg:'#F2EDE3', muted:'#B4C6C0', accent:'#E8B7A0', globe:'#E8B7A0'},
+      {bg:'#1C1A17', fg:'#FBF9F5', muted:'#A39E95', accent:'#E39AA8', globe:'#E39AA8'}
+    ],
+    redeye: [
+      {bg:'#0A1226', fg:'#EEF2FB', muted:'#9AA6C2', accent:'#F5B971', globe:'#7F98DE'},
+      {bg:'#11204A', fg:'#EEF2FB', muted:'#A6B3D3', accent:'#F5B971', globe:'#93ABF0'},
+      {bg:'#2A2350', fg:'#F1ECFA', muted:'#BDB3DA', accent:'#FF9E7A', globe:'#C6A8F0'},
+      {bg:'#7A3A5C', fg:'#FFF1EA', muted:'#F0CACA', accent:'#FFD29A', globe:'#FFB38A'},
+      {bg:'#F4A06B', fg:'#2A1428', muted:'#5E3138', accent:'#2A1428', globe:'#2A1428'}
+    ],
+    departures: [
+      {bg:'#E8F1FF', fg:'#0B1E4A', muted:'#4B5E86', accent:'#1F4FFF', globe:'#1F4FFF'},
+      {bg:'#1F4FFF', fg:'#FFFFFF', muted:'#D3DEFF', accent:'#FFD23F', globe:'#FFD23F'},
+      {bg:'#FFD23F', fg:'#14130F', muted:'#4F4720', accent:'#1F4FFF', globe:'#14130F'},
+      {bg:'#FFFFFF', fg:'#0B1E4A', muted:'#4B5E86', accent:'#E8442A', globe:'#E8442A'},
+      {bg:'#0B1E4A', fg:'#FFFFFF', muted:'#AEBBD9', accent:'#FFD23F', globe:'#FFD23F'}
+    ]
+  };
+  // Where the globe sits in each section: x as a fraction of half the screen width
+  const SCENES = [
+    {x:0.52,  y:0.0,  s:1.0,  op:1.0},
+    {x:-0.62, y:0.35, s:0.85, op:0.35},
+    {x:0.55,  y:-0.1, s:1.1,  op:0.9},
+    {x:-0.6,  y:0.0,  s:0.95, op:0.55},
+    {x:0.35,  y:-0.55,s:1.35, op:0.95}
+  ];
 
-  // scroll reveal (respects reduced motion)
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (!reduce && 'IntersectionObserver' in window) {
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting){ e.target.classList.add('is-visible'); io.unobserve(e.target); } });
-    }, { threshold: 0.12 });
-    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
-  } else {
-    document.querySelectorAll('.reveal').forEach(el => el.classList.add('is-visible'));
+  const root = document.documentElement;
+  let dir = 'paper';
+  root.dataset.dir = dir;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const sections = [...document.querySelectorAll('[data-scene]')];
+
+  const hex = h => [1,3,5].map(i => parseInt(h.slice(i, i + 2), 16));
+  const mix = (a, b, t) => { const A = hex(a), B = hex(b); return 'rgb(' + A.map((v, i) => Math.round(v + (B[i] - v) * t)).join(',') + ')'; };
+  const lerp = (a, b, t) => a + (b - a) * t;
+  const ease = t => t * t * (3 - 2 * t);
+
+  function where() {
+    const vh = innerHeight, mark = vh * 0.55;
+    let i = 0;
+    sections.forEach((s, k) => { if (s.getBoundingClientRect().top <= mark) i = k; });
+    let t = 0;
+    if (i < sections.length - 1) {
+      const nextTop = sections[i + 1].getBoundingClientRect().top;
+      t = ease(Math.min(1, Math.max(0, 1 - (nextTop - mark) / (vh * 0.4))));
+    }
+    return {i, t, j: Math.min(i + 1, sections.length - 1)};
   }
 
-  // active nav on scroll
-  const navLinks = [...document.querySelectorAll('.nav a:not(.resume)')];
-  const ids = navLinks.map(a => a.getAttribute('href').slice(1));
-  const spy = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting){
-        navLinks.forEach(l => l.classList.toggle('active', l.getAttribute('href') === '#' + e.target.id));
-      }
+  let colors = {};
+  function paint() {
+    const {i, j, t} = where();
+    const P = PALETTES[dir];
+    for (const k of ['bg', 'fg', 'muted', 'accent', 'globe']) colors[k] = mix(P[i][k], P[j][k], t);
+    root.style.setProperty('--bg', colors.bg);
+    root.style.setProperty('--fg', colors.fg);
+    root.style.setProperty('--muted', colors.muted);
+    root.style.setProperty('--accent', colors.accent);
+    const A = SCENES[i], B = SCENES[j];
+    return {x: lerp(A.x, B.x, t), y: lerp(A.y, B.y, t), s: lerp(A.s, B.s, t), op: lerp(A.op, B.op, t)};
+  }
+
+  // Direction switcher (preview only)
+  document.querySelectorAll('.dirs button').forEach(b => {
+    b.setAttribute('aria-pressed', b.dataset.d === dir);
+    b.addEventListener('click', () => {
+      dir = b.dataset.d; root.dataset.dir = dir;
+      document.querySelectorAll('.dirs button').forEach(x => x.setAttribute('aria-pressed', x === b));
+      try { localStorage.setItem('cm-dir', dir); } catch (e) {}
+      paint();
     });
-  }, { rootMargin: '-45% 0px -50% 0px' });
-  ids.forEach(id => { const el = document.getElementById(id); if (el) spy.observe(el); });
+  });
+  try { const saved = localStorage.getItem('cm-dir'); if (saved && PALETTES[saved] && document.querySelector('.dirs')) document.querySelector('.dirs [data-d="' + saved + '"]').click(); } catch (e) {}
+
+  // Copy email
+  const copy = document.getElementById('copy');
+  copy.addEventListener('click', () => {
+    const text = document.getElementById('addr').textContent;
+    const done = () => { copy.textContent = 'Copied'; setTimeout(() => copy.textContent = 'Copy email', 1600); };
+    const fallback = () => { const r = document.createRange(); r.selectNodeContents(document.getElementById('addr')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); };
+    if (navigator.clipboard) navigator.clipboard.writeText(text).then(done, fallback); else fallback();
+  });
+
+  let target = paint();
+  if (!window.THREE) { addEventListener('scroll', paint, {passive: true}); return; }
+
+  // ---------- Globe ----------
+  const canvas = document.getElementById('sky');
+  const renderer = new THREE.WebGLRenderer({canvas, antialias: true, alpha: true});
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(35, 1, 0.1, 100);
+  camera.position.z = 7;
+
+  const R = 1.35;
+  const rig = new THREE.Group(); scene.add(rig);
+  const globe = new THREE.Group(); rig.add(globe);
+  rig.rotation.x = 0.38;
+
+  const toVec = (lat, lon, r = R) => {
+    const phi = (90 - lat) * Math.PI / 180, th = (lon + 180) * Math.PI / 180;
+    return new THREE.Vector3(-r * Math.sin(phi) * Math.cos(th), r * Math.cos(phi), r * Math.sin(phi) * Math.sin(th));
+  };
+
+  const occluder = new THREE.Mesh(new THREE.SphereGeometry(R * 0.992, 48, 48), new THREE.MeshBasicMaterial({color: 0xffffff}));
+  globe.add(occluder);
+
+  const grid = [];
+  for (let lat = -75; lat <= 75; lat += 15) for (let lon = 0; lon < 360; lon += 4) grid.push(toVec(lat, lon), toVec(lat, lon + 4));
+  for (let lon = 0; lon < 360; lon += 15) for (let lat = -90; lat < 90; lat += 4) grid.push(toVec(lat, lon), toVec(Math.min(lat + 4, 90), lon));
+  const gridMat = new THREE.LineBasicMaterial({transparent: true, opacity: 0.3});
+  globe.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(grid), gridMat));
+
+  const C = {
+    ATL:[33.64,-84.43], DSM:[41.53,-93.66], SEA:[47.45,-122.31], JFK:[40.64,-73.78], LAX:[33.94,-118.41],
+    LHR:[51.47,-0.45], CDG:[49.0,2.55], AMS:[52.31,4.76], HND:[35.55,139.78], ICN:[37.46,126.44],
+    GRU:[-23.43,-46.47], MEX:[19.43,-99.07], LOS:[6.58,3.32], HNL:[21.32,-157.92], BOG:[4.7,-74.15], MSP:[44.88,-93.22]
+  };
+  const dotGeo = new THREE.SphereGeometry(0.02, 10, 10);
+  const dotMat = new THREE.MeshBasicMaterial({transparent: true});
+  Object.values(C).forEach(([la, lo]) => { const m = new THREE.Mesh(dotGeo, dotMat); m.position.copy(toVec(la, lo, R * 1.002)); globe.add(m); });
+
+  const N = 90, arcs = [];
+  const routes = ['DSM','SEA','JFK','LAX','LHR','CDG','AMS','HND','ICN','GRU','MEX','LOS','HNL','BOG','MSP'];
+  const accentMat = new THREE.LineBasicMaterial({transparent: true});
+  const arcMat = new THREE.LineBasicMaterial({transparent: true});
+  const headMat = new THREE.MeshBasicMaterial({transparent: true});
+  const headGeo = new THREE.SphereGeometry(0.028, 10, 10);
+  routes.forEach((code, k) => {
+    const from = k === 0 ? C.DSM : C.ATL, to = k === 0 ? C.ATL : C[code];
+    const a = toVec(...from, 1), b = toVec(...to, 1);
+    const om = a.angleTo(b), lift = 0.08 + 0.32 * om / Math.PI;
+    const pts = [];
+    for (let n = 0; n <= N; n++) {
+      const t = n / N;
+      const v = a.clone().multiplyScalar(Math.sin((1 - t) * om) / Math.sin(om)).add(b.clone().multiplyScalar(Math.sin(t * om) / Math.sin(om)));
+      pts.push(v.multiplyScalar(R * (1 + lift * Math.sin(Math.PI * t))));
+    }
+    const line = new THREE.Line(new THREE.BufferGeometry().setFromPoints(pts), k === 0 ? accentMat : arcMat);
+    const head = new THREE.Mesh(headGeo, headMat);
+    globe.add(line); globe.add(head);
+    arcs.push({line, head, pts, phase: k === 0 ? 0 : (k * 0.37) % 2, speed: 0.22 + (k % 4) * 0.04});
+  });
+
+  const atl = toVec(...C.ATL);
+  const focusY = -Math.atan2(atl.x, atl.z);
+  const cur = {x: target.x, y: target.y, s: target.s, op: target.op};
+  const tmp = new THREE.Color();
+
+  function resize() {
+    const w = innerWidth, h = innerHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h; camera.updateProjectionMatrix();
+  }
+  addEventListener('resize', resize); resize();
+
+  const t0 = performance.now();
+  function frame(now) {
+    const time = (now - t0) / 1000;
+    target = paint();
+    const k = reduce ? 1 : 0.07;
+    for (const key of ['x', 'y', 's', 'op']) cur[key] += (target[key] - cur[key]) * k;
+
+    const narrow = innerWidth < 760;
+    const halfW = Math.tan(17.5 * Math.PI / 180) * camera.position.z * camera.aspect;
+    rig.position.x = narrow ? 0 : cur.x * halfW;
+    rig.position.y = narrow ? cur.y * 0.6 + 0.6 : cur.y;
+    rig.scale.setScalar(narrow ? cur.s * 0.85 : cur.s);
+    const op = narrow ? cur.op * 0.45 : cur.op;
+
+    const scrollP = scrollY / Math.max(1, document.documentElement.scrollHeight - innerHeight);
+    globe.rotation.y = focusY + 0.5 + scrollP * Math.PI * 1.6 + (reduce ? 0 : time * 0.035);
+
+    occluder.material.color.setStyle(colors.bg);
+    tmp.setStyle(colors.globe);
+    gridMat.color.copy(tmp); gridMat.opacity = 0.32 * op;
+    arcMat.color.copy(tmp); arcMat.opacity = 0.85 * op;
+    dotMat.color.copy(tmp); dotMat.opacity = op;
+    headMat.color.copy(tmp); headMat.opacity = op;
+    accentMat.color.setStyle(colors.fg); accentMat.opacity = op;
+
+    arcs.forEach(a => {
+      if (reduce) { a.line.geometry.setDrawRange(0, N + 1); a.head.visible = false; return; }
+      const c = (time * a.speed + a.phase) % 2;
+      const head = Math.min(c, 1), tail = Math.max(0, c - 1);
+      const s = Math.floor(tail * N), e = Math.floor(head * N);
+      a.line.geometry.setDrawRange(s, Math.max(0, e - s + 1));
+      a.head.visible = c < 1;
+      a.head.position.copy(a.pts[e]);
+    });
+
+    renderer.render(scene, camera);
+    requestAnimationFrame(frame);
+  }
+  requestAnimationFrame(frame);
+})();
 </script>
+
 </body>
 </html>
